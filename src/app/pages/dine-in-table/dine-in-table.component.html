@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title class="ion-text-center head">Spice Restaurants</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button fill="solid" color="danger">
+         <ion-icon name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button fill="solid" color="success">
+<ion-icon name="grid-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button fill="solid" color="warning">
+        <ion-icon name="restaurant-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button fill="solid" color="primary">
+         <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-grid>
+
+    <ion-row class="ion-justify-content-center ion-margin-bottom">
+      <ion-col size="12" class="ion-text-center">
+        <h2 class="dinein">Dine-in Table</h2>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngFor="let table of tables" size="4" size-sm="3" size-md="2" size-lg="2" size-xl="1"
+        class="ion-text-center">
+        <ion-button expand="block" color="primary"  (click)="openModal()">
+          {{ table }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+<!-- SPLIT PANE: Responsive Sidebar -->
+<!-- <ion-split-pane contentId="main-content" when="lg">
+
+   <ion-menu contentId="main-content" class="sidebar-menu">
+    <ion-header>
+      <ion-toolbar color="success">
+        <ion-title>Spice Restaurants</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item lines="none">
+          <ion-icon name="person-circle" slot="start"></ion-icon>
+          <ion-label>Waiter</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="home-outline" slot="start"></ion-icon>
+          <ion-label>MAIN / HOME</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="grid-outline" slot="start"></ion-icon>
+          <ion-label>TABLE Layout</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="restaurant-outline" slot="start"></ion-icon>
+          <ion-label>VIEW Order</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="search-outline" slot="start"></ion-icon>
+          <ion-label>SEARCH Order</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+   <div id="main-content">
+
+     <ion-header>
+      <ion-toolbar color="success">
+        <ion-title class="ion-text-center head">Spice Restaurants</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+     <div class="top-icons-mobile">
+      <ion-buttons slot="start">
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-buttons>
+      <div class="right-icons">
+        <ion-button fill="solid" color="primary">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+        <ion-button fill="solid" color="primary">
+          <ion-icon name="notifications"></ion-icon>
+        </ion-button>
+        <ion-button fill="solid" color="primary">
+          <ion-icon name="settings"></ion-icon>
+        </ion-button>
+        <ion-button fill="solid" color="primary">
+          <ion-icon name="search"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+     <ion-content class="ion-padding">
+      <ion-grid>
+        <ion-row class="ion-justify-content-center ion-margin-bottom">
+          <ion-col size="12" class="ion-text-center">
+            <h2 class="dinein">Dine-in Table</h2>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col *ngFor="let table of tables" size="4" size-sm="3" size-md="2" size-lg="2" size-xl="1"
+            class="ion-text-center">
+            <ion-button expand="block" color="primary" (click)="openModal()">
+              {{ table }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+  </div>
+</ion-split-pane> -->

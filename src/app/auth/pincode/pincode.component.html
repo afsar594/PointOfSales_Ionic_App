@@ -1,0 +1,27 @@
+<ion-content class="ion-padding login-bg">
+  <div class="login-card">
+    <h2 class="login-title">Login</h2>
+
+    <ion-input type="password" readonly [(ngModel)]="pin" class="login-input" placeholder="Enter PIN"></ion-input>
+
+    <div class="keypad">
+      <ion-button expand="block" (click)="append('1')">1</ion-button>
+      <ion-button expand="block" (click)="append('2')">2</ion-button>
+      <ion-button expand="block" (click)="append('3')">3</ion-button>
+      <ion-button expand="block" (click)="append('4')">4</ion-button>
+      <ion-button expand="block" (click)="append('5')">5</ion-button>
+      <ion-button expand="block" (click)="append('6')">6</ion-button>
+      <ion-button expand="block" (click)="append('7')">7</ion-button>
+      <ion-button expand="block" (click)="append('8')">8</ion-button>
+      <ion-button expand="block" (click)="append('9')">9</ion-button>
+      <ion-button expand="block" color="danger" (click)="clear()">Clear</ion-button>
+      <ion-button expand="block" (click)="append('0')">0</ion-button>
+      <ion-button expand="block" color="warning" >Back</ion-button>
+
+    </div>
+
+     <div class="actions">
+      <ion-button expand="block" color="success" (click)="opendinein()">Enter</ion-button>
+     </div>
+  </div>
+</ion-content>

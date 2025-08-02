@@ -1,0 +1,61 @@
+<!-- <ion-content class="ion-padding content-center"> -->
+<!-- <div class="card-wrapper"> -->
+<!-- <ion-card> -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Add Item</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="solid" color="danger" (click)="closeForm()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-card-content>
+
+  <ion-item>
+    <ion-label>Item</ion-label>
+    <ion-input type="text" readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Quantity</ion-label>
+    <div class="quantity-container">
+      <ion-button class="qty-btn minus">
+        <ion-icon name="remove" slot="icon-only"></ion-icon>
+      </ion-button>
+      <div class="qty-label">Qty: </div>
+      <ion-button class="qty-btn plus">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Special Note</ion-label>
+    <ion-input type="text"></ion-input>
+    <ion-button class="btnicon" slot="end" color="primary" (click)="openModal()">
+      <ion-icon name="create"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Price(RM)</ion-label>
+    <ion-input type="number" readonly></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>GST(RM)</ion-label>
+    <ion-input type="number" readonly></ion-input>
+  </ion-item>
+
+  <div class="button-group">
+    <ion-button color="danger" expand="block">Back</ion-button>
+    <ion-button color="success" expand="block">Next</ion-button>
+    <ion-button color="primary" expand="block">OK</ion-button>
+  </div>
+
+</ion-card-content>
+<!-- </ion-card> -->
+<!-- </div> -->
+<!-- </ion-content> -->

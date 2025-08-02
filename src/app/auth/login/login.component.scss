@@ -1,0 +1,130 @@
+.login-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/assets/img/lights.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+::ng-deep {
+
+  ion-card-header {
+    --background: #2c5d82;
+    --color: white;
+    text-align: center;
+    border: 1px solid #26445c;
+    --border-width: 4px 0;
+    --min-height: 50px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }
+ion-button{
+    margin-top: 15px;
+        --background: #2c5d82;
+    --color: white;
+    border: 1px solid #254661;
+    --border-width: 4px 0;
+
+}
+
+  ion-card-title {
+    font-size: 26px;
+    text-align: ceter;
+    color: white;
+  }
+
+  .today {
+    font-size: 18px;
+  }
+  .ion-margin-bottom {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+}
+ 
+@media screen and (max-width: 768px) {
+  ion-card {
+    width: 100% !important;
+    margin: 0;
+  }
+}
+.login-card {
+  width: 35%;
+  margin: auto;
+  margin-top: 2%;
+}
+
+@media screen and (max-width: 768px) {
+  .login-card {
+    width: 90%; /* or 100% if you want full width on mobile */
+    margin-top: 20%;
+  }
+ ion-card-title {
+    font-size: 16px;
+    text-align: ceter;
+    color: white;
+   
+  }
+   .ion-margin-bottom {
+    margin-bottom: 3px;
+    margin-top: 3px;
+  }
+.responsive-label{
+  font-size: 12px;
+}
+.custom-checkbox::part(container) {
+  width: 12px;
+  height: 12px;
+}
+
+.custom-checkbox::part(mark) {
+  font-size: 16px; /* controls checkmark size */
+}
+  .forgot {
+     font-size: 7px;
+     
+   }
+
+  .remember {
+ 
+    font-size: 7px;
+    }
+ ion-button{
+  width: 100%;
+  height: 30px;
+ }
+}
+.login-logo {
+  width: 100px;
+  height: auto;
+  margin: 0 auto 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.login-logo:hover {
+  transform: scale(1.05);
+}
+
+.login-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-top: 4px;
+  color: var(--ion-color-primary);
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: var(--ion-color-white);
+  margin-top: 4px;
+}

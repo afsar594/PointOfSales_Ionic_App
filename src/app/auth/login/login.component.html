@@ -1,0 +1,51 @@
+<div class="login-bg">
+<ion-grid [fixed]="true">
+  <ion-card class="login-card">
+    <!-- <ion-card-header>
+      <ion-card-title> <ion-row class="ion-justify-content-center">
+          <ion-col size="12" class="ion-text-center">
+            <img src="assets/img/log1.png" alt="Logo" class="login-logo" />
+          </ion-col>
+        </ion-row> Login</ion-card-title>
+    </ion-card-header> -->
+    <ion-card-header class="login-card-header">
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+    <ion-col size="12" class="ion-text-center">
+      <img src="assets/img/secure.png" alt="Logo" class="login-logo" />
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="12" class="ion-text-center">
+      <ion-card-title class="login-title">Welcome!</ion-card-title>
+      <p class="login-subtitle">Sign In to continue</p>
+    </ion-col>
+  </ion-row>
+</ion-card-header>
+
+    <ion-card-content padding>
+      <form>
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating" class="responsive-label">Email</ion-label>
+          <ion-input type="email" class="responsive-label"></ion-input>
+        </ion-item>
+
+        <ion-item class="mb-2">
+          <ion-label position="floating" class="responsive-label">Password</ion-label>
+          <ion-input type="password" class="responsive-label"></ion-input>
+        </ion-item>
+
+
+<ion-grid class="ion-padding-horizontal">
+    <ion-row>
+      <ion-col size="6">
+        <ion-button type="submit" expand="block" color="secondary"(click)="opendinein()">Login</ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button type="button" expand="block" color="primary" (click)="usePincode()">Use Pincode</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-grid>
+</div>

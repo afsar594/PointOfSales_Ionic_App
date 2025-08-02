@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title class="center-text">Amira Restaurant</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+ <!-- TOP TOOLBAR ROW -->
+<div class="top-toolbar">
+  <!-- LEFT: Hamburger Icon -->
+  <div class="left-icon">
+    <ion-icon name="menu-outline"></ion-icon>
+  </div>
+
+  <!-- RIGHT: Colored Square Buttons -->
+  <div class="right-buttons">
+    <div class="icon-button red">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+    <div class="icon-button green">
+      <ion-icon name="grid-outline"></ion-icon>
+    </div>
+    <div class="icon-button yellow">
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </div>
+    <div class="icon-button purple">
+      <ion-icon name="search-outline"></ion-icon>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Table and Pax -->
+  <ion-item>
+    <ion-label>TABLE: <strong>T-21</strong></ion-label>
+    <ion-label position="end">PAX:</ion-label>
+    <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
+      <ion-select-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">{{ num }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Order Button -->
+  <div class="ion-text-end">
+    <ion-button color="success">ORDER</ion-button>
+  </div>
+
+  <!-- Order List -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Order List</ion-card-title>
+      
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="primary" fill="solid">
+        <ion-icon name="add-circle" slot="start"></ion-icon>
+        Add Item
+      </ion-button>
+
+      <ion-list>
+        <ion-item *ngFor="let item of orderList">
+          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-label>
+            <h2>{{ item.name }}</h2>
+          </ion-label>
+          <ion-badge color="warning">{{ item.qty }}x</ion-badge>
+          <ion-badge color="success">RM {{ item.price.toFixed(2) }}</ion-badge>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Bottom Buttons -->
+  <ion-footer>
+    <ion-toolbar>
+      <ion-col slot="start">
+        <ion-button color="danger"><ion-icon name="arrow-back"></ion-icon>BACK</ion-button>
+      </ion-col>
+      <ion-col slot="end">
+        <ion-button color="success"><ion-icon name="arrow-down"></ion-icon>ORDER</ion-button>
+      </ion-col>
+    </ion-toolbar>
+  </ion-footer>
+
+</ion-content>

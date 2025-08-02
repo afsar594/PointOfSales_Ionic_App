@@ -1,0 +1,100 @@
+<ion-header>
+<ion-toolbar color="success"> 
+  <ion-searchbar
+    [(ngModel)]="searchText"
+    placeholder="Search"
+    animated="true"
+    showCancelButton="never"
+    style="--background: white; --border-radius: 4px; width: 200px;">
+  </ion-searchbar>
+
+  <!-- <ion-button
+    fill="solid"
+    color="light"
+    (click)="onSearch()"
+    style="margin-left: 8px; background-color: white; color: green;">
+    <ion-icon name="search" slot="icon-only"></ion-icon>
+  </ion-button> -->
+   <ion-buttons slot="end">
+      <ion-button fill="solid" color="danger" (click)="closeForm()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+</ion-toolbar>
+ 
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <!-- <ion-row>
+  <ion-col size="6" size-sm="4" size-md="3" size-lg="2" *ngFor="let item of menuItems">
+    <ion-card button>
+      <img [src]="item.image" />
+      <ion-card-content>{{ item.title }}</ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row> -->
+    <ion-row>
+      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of menuItems">
+        <div class="square-card">
+          <ion-card button>
+            <div class="card-content-wrapper">
+              <div class="image-wrapper">
+                <img [src]="item.image" />
+              </div>
+              <div class="text-wrapper">
+                {{ item.title }}
+              </div>
+            </div>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of menuItems">
+        <div class="square-card">
+          <ion-card button>
+            <div class="card-content-wrapper">
+              <div class="image-wrapper">
+                <img [src]="item.image" (click)="openItemDialog(item)"/>
+              </div>
+              <div class="text-wrapper">
+                {{ item.title }}
+              </div>
+            </div>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of menuItems">
+        <div class="square-card">
+          <ion-card button>
+            <div class="card-content-wrapper">
+              <div class="image-wrapper">
+                <img [src]="item.image" />
+              </div>
+              <div class="text-wrapper">
+                {{ item.title }}
+              </div>
+            </div>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <!-- Action Buttons -->
+  <ion-row class="ion-justify-content-between ion-padding-top">
+    <ion-col size="6">
+      <ion-button expand="block" color="medium">Back</ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="block" color="danger">Cancel</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
