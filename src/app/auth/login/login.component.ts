@@ -41,7 +41,7 @@ username = 'Admin';
       .login({ username: this.username, password: this.password })
       .subscribe({
         next: (res) => {
-          if (true) {
+          if (res.isSuccess) {
             this.router.navigate(['/pages/dineintable']);
             this.utilityServic.SetLoginData(res.data);
           } else {
