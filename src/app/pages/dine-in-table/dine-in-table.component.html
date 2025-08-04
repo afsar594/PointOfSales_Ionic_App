@@ -40,10 +40,10 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col *ngFor="let table of tables" size="4" size-sm="3" size-md="2" size-lg="2" size-xl="1"
+      <ion-col *ngFor="let table of Alltables" size="4" size-sm="3" size-md="2" size-lg="2" size-xl="1"
         class="ion-text-center">
         <ion-button expand="block" color="primary"  (click)="openModal()">
-          {{ table }}
+          {{ table.name }}
         </ion-button>
       </ion-col>
     </ion-row>
