@@ -19,6 +19,7 @@ export class DineInTableComponent  implements OnInit {
     'T-07', 'T-08', 'T-09', 'T-10', 'T-11', 'T-12',
     'T-13', 'T-14', 'T-15', 'T-16', 'T-17', 'T-18'
   ];
+  Alltables: any;
 
   constructor(private modalController: ModalController,
     private tableapi :TableService,
@@ -52,8 +53,15 @@ getAllTable(){
     customerName: "",
     tableStatus: ""
 }
-  this.tableapi.getList(payload).subscribe((res) => {
-    console.log('res',res)
+  this.tableapi.getList(payload).subscribe((res:any) => {
+  this.Alltables = res.data.flatMap((area: { areaTables: any[]; }) =>
+  area.areaTables.map(table => ({
+    name: table.tableName,
+    Id: table.tableId
+  }))
+);
+
+    console.log('this.Alltables',this.Alltables)
   })
 }
 }
