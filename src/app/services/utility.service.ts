@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilityService {
 
-constructor(private route: Router, private http: HttpClient,private router: Router) { }
+constructor(private route: Router, private http: HttpClient,private router: Router ) { }
 
   GetAuthToken() {
     return localStorage.getItem('userToken')

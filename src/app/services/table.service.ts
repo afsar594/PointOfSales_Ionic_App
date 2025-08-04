@@ -10,7 +10,7 @@ apiUrl:any;
   constructor(private httpClient: HttpClient) { 
     this.apiUrl = environment.apiURL;
   }
-getList(item: any){
+ getList(item: any){
   return this.httpClient.post<any[]>(this.apiUrl+"GenerallItems/GetAreaTable", item)
 }
 
