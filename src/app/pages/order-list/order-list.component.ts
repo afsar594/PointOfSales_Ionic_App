@@ -7,11 +7,11 @@ import { IonicModule } from '@ionic/angular';
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.scss'],
-          standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule], 
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule],
 })
-export class OrderListComponent  implements OnInit {
-pax = 1;
+export class OrderListComponent implements OnInit {
+  pax = 1;
 
   orderList = [
     { name: 'Bihun Goreng (No Meat)', qty: 2, price: 4.50 },
@@ -20,6 +20,6 @@ pax = 1;
   ];
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

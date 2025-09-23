@@ -9,12 +9,12 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './pincode.component.html',
   styleUrls: ['./pincode.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule], 
+  imports: [CommonModule, FormsModule, IonicModule],
 })
-export class PincodeComponent  implements OnInit {
+export class PincodeComponent implements OnInit {
 
   constructor(private router: Router) { }
- pin: string = '';
+  pin: string = '';
 
   append(num: string) {
     if (this.pin.length < 6) {
@@ -37,12 +37,12 @@ export class PincodeComponent  implements OnInit {
   shutdown() {
     alert('Shutdown triggered');
   }
-    
-  opendinein(){
-this.router.navigate(['/pages/dineintable']);  
+
+  opendinein() {
+    this.router.navigate(['/pages/dineintable']);
   }
-ngOnInit(): void {
-  
-}
+  ngOnInit(): void {
+
+  }
 
 }
