@@ -38,7 +38,7 @@ username = 'Admin';
 
   login() {
     this.authService
-      .login({ username: this.username, password: this.password })
+      .login({  password: this.password })
       .subscribe({
         next: (res) => {
           if (res.isSuccess) {

@@ -19,7 +19,7 @@ import {
 } from '@angular/common/http';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApplicationInterceptor } from './app/auth/auth.interceptor';
+import { ApplicationInterceptor } from './app/core/auth.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [

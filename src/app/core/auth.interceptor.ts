@@ -10,6 +10,7 @@ import { UtilityService } from '../services/utility.service';
 import { Router } from '@angular/router';
 
 @Injectable()
+
 export class ApplicationInterceptor implements HttpInterceptor {
   constructor(
     private utilityService: UtilityService,
