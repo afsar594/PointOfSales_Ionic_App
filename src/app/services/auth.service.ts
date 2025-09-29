@@ -14,12 +14,11 @@ export class AuthService {
   constructor(private http: HttpClient,
     private router: Router
   ) {
-    this.apiUrl = environment.apiURL;
 
   }
 
   login(credentials: { password: string }): Observable<any> {
-    return this.http.post<any>(this.apiUrl + 'Auth/login', credentials).pipe(
+    return this.http.post<any>( 'Auth/login', credentials).pipe(
       tap(response => {
         if (response?.isSuccess && response.data?.token) {
 

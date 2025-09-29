@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './pincode.component.html',
   styleUrls: ['./pincode.component.scss'],
   standalone: true,
-  imports: [ FormsModule, IonicModule],
+  imports: [FormsModule, IonicModule],
 })
 export class PincodeComponent implements OnInit {
   title = 'login';
@@ -20,23 +21,15 @@ export class PincodeComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastCtrl: ToastController,
+    private toastService: ToastService,
     private utilityService: UtilityService
-  ) {}
+  ) { }
 
-  async showToast(message: string, color: 'success' | 'danger' = 'danger') {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      position: 'top',
-      color,
-    });
-    toast.present();
-  }
+
 
   login() {
     if (this.password.trim() === '') {
-      this.showToast('Password is required.');
+      this.toastService.show('Password is required', 'danger');
       return;
     }
 
@@ -46,16 +39,15 @@ export class PincodeComponent implements OnInit {
           this.utilityService.SetLoginData(res.data);
 
           localStorage.setItem('UserPermissionList', JSON.stringify(res.data?.userPermissions));
-
-          this.showToast('Login successful!', 'success');
-             this.router.navigate(['/pages/dineintable']);
+          this.toastService.show('Login successful!', 'success');
+          this.router.navigate(['/pages/dineintable']);
 
         } else {
-          this.showToast(res.message || 'Login failed', 'danger');
+          this.toastService.show(res.message || 'Login failed', 'danger');
         }
       },
       error: () => {
-        this.showToast('Something went wrong. Try again.', 'danger');
+        this.toastService.show('Something went wrong. Try again.', 'danger');
       },
     });
   }
@@ -72,5 +64,5 @@ export class PincodeComponent implements OnInit {
     this.router.navigate(['/pages/dineintable']);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

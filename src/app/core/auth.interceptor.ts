@@ -5,8 +5,11 @@ import {
   HttpHandler,
   HttpEvent
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, finalize, map, Observable, throwError } from 'rxjs';
 import { UtilityService } from '../services/utility.service';
+import { LoadingServiceService } from '../services/loading-service.service';
+import { environment } from 'src/environments/environment';
+import { ToastService } from '../services/toast.service';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -14,23 +17,47 @@ import { Router } from '@angular/router';
 export class ApplicationInterceptor implements HttpInterceptor {
   constructor(
     private utilityService: UtilityService,
-    private router: Router
+    private loaderService: LoadingServiceService,
+    private toastService: ToastService,
+    private route: Router
   ) { }
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const token = this.utilityService.GetAuthToken();
+    const token: any = this.utilityService.GetAuthToken();
 
-    const clonedRequest = token
-      ? req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      : req;
+    // Attach token if available
+    if (token) {
+      request = request.clone({
+        url: environment.apiURL + request.url,
+        setHeaders: { Authorization: `Bearer ${token}` }
+      });
+    } else {
+      request = request.clone({
+        url: environment.apiURL + request.url
+      });
+    }
 
-    return next.handle(clonedRequest);
+    this.loaderService.showLoader();
+
+    return next.handle(request).pipe(
+  map(event => event),
+  catchError(err => {
+    if (err.status === 401) {
+      // Navigate to login
+      this.route.navigate(['authen/login']);
+
+      // Show Ionic Toast (already async internally, no need to await here)
+      this.toastService.show('You are unauthorized to perform this action.', 'danger');
+
+      localStorage.clear();
+    }
+
+    const error = err.message || err.statusText;
+    return throwError(() => error);
+  }),
+  finalize(() => this.loaderService.hideLoader())
+);
+
   }
 }
+

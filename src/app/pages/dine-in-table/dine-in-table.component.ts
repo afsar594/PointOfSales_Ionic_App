@@ -30,10 +30,13 @@ export class DineInTableComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  async openModal() {
+  async openModal(table: any) {
     const modal = await this.modalController.create({
       component: OrderTakenComponent,
-      cssClass: 'custom-width-modal'
+      cssClass: 'custom-width-modal',
+      componentProps: {
+        tableData: table   // ✅ passing the table object
+      }
     });
     modal.present();
 
