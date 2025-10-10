@@ -22,7 +22,7 @@ export class OrderTakenComponent implements OnInit {
   selectedCatGroup: any[] = [];
 
   onSearch() {
-    console.log('Searching for:', this.tableData);
+    console.log('Searching for:', this.searchText);
   }
 
   constructor(

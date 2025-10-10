@@ -1,35 +1,40 @@
 <ion-header>
-<ion-toolbar color="success"> 
-  <ion-searchbar
-    [(ngModel)]="searchText"
-    placeholder="Search"
-    animated="true"
-    showCancelButton="never"
-    style="--background: white; --border-radius: 4px; width: 200px;">
-  </ion-searchbar>
+  <ion-toolbar color="success">
+    <ion-searchbar
+      [(ngModel)]="searchText"
+      placeholder="Search"
+      animated="true"
+      showCancelButton="never"
+      style="--background: white; --border-radius: 4px; width: 200px"
+    >
+    </ion-searchbar>
 
-  <!-- <ion-button
+    <!-- <ion-button
     fill="solid"
     color="light"
     (click)="onSearch()"
     style="margin-left: 8px; background-color: white; color: green;">
     <ion-icon name="search" slot="icon-only"></ion-icon>
   </ion-button> -->
-   <ion-buttons slot="end">
+    <ion-buttons slot="end">
       <ion-button fill="solid" color="danger" (click)="closeForm()">
         Close
         <ion-icon slot="end" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-</ion-toolbar>
- 
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <ion-grid>
-  
-    <ion-row>
-      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of menuItems">
+    <!-- <ion-row>
+      <ion-col
+        size="6"
+        size-sm="4"
+        size-md="3"
+        size-lg="3"
+        *ngFor="let item of menuItems"
+      >
         <div class="square-card">
           <ion-card button>
             <div class="card-content-wrapper">
@@ -43,26 +48,38 @@
           </ion-card>
         </div>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
 
     <ion-row>
-      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of menuItems">
+      <ion-col
+        size="6"
+        size-sm="4"
+        size-md="3"
+        size-lg="3"
+        *ngFor="let item of selectedCatItem"
+      >
         <div class="square-card">
           <ion-card button>
             <div class="card-content-wrapper">
               <div class="image-wrapper">
-                <img [src]="item.image" (click)="openItemDialog(item)"/>
+                <img [src]="item.image" (click)="openItemDialog(item)" />
               </div>
               <div class="text-wrapper">
-                {{ item.title }}
+                {{ item.itemName }}
               </div>
             </div>
           </ion-card>
         </div>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of menuItems">
+    <!-- <ion-row>
+      <ion-col
+        size="6"
+        size-sm="4"
+        size-md="3"
+        size-lg="3"
+        *ngFor="let item of menuItems"
+      >
         <div class="square-card">
           <ion-card button>
             <div class="card-content-wrapper">
@@ -76,8 +93,7 @@
           </ion-card>
         </div>
       </ion-col>
-    </ion-row>
-
+    </ion-row> -->
   </ion-grid>
 
   <!-- Action Buttons -->
@@ -89,5 +105,4 @@
       <ion-button expand="block" color="danger">Cancel</ion-button>
     </ion-col>
   </ion-row>
-
 </ion-content>
