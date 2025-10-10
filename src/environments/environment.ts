@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   // apiURL: 'http://194.233.95.37:8087/inspireRest/api/',
-apiURL: 'http://103.74.54.207:8078/inspireRest/api/'
+//apiURL: 'http://103.74.54.207:8078/inspireRest/api/'
 
-//apiURL: 'http://localhost:5137/inspireRest/api/',
+apiURL: 'http://localhost:5137/inspireRest/api/',
 };
 
 /*http://localhost:5137/
