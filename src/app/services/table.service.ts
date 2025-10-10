@@ -3,17 +3,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TableService {
-apiUrl:any;
-  constructor(private httpClient: HttpClient) { 
+  apiUrl: any;
+  constructor(private httpClient: HttpClient) {
     this.apiUrl = environment.apiURL;
-
   }
- getList(item: any){
-  return this.httpClient.post<any[]>(this.apiUrl+"GeneralItems/GetAreaTable", item)
+  getList(item: any) {
+    return this.httpClient.post<any[]>('GeneralItems/GetAreaTable', item);
+  }
 }
-
-}
-  
