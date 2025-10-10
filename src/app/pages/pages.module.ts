@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {   HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { TableService } from '../services/table.service';
 
 
@@ -16,8 +16,8 @@ import { TableService } from '../services/table.service';
     IonicModule,
     ReactiveFormsModule,
     FormsModule,
-     IonicModule.forRoot(),
-HttpClientModule  ],
-providers: [TableService]
+    IonicModule.forRoot(),
+    HttpClientModule],
+  providers: [TableService]
 })
 export class PagesModule { }

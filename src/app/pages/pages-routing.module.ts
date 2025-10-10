@@ -7,32 +7,32 @@ import { AddRemarksComponent } from './add-remarks/add-remarks.component';
 import { OrderListComponent } from './order-list/order-list.component';
 
 const routes: Routes = [
-     {
-      path: 'dineintable', 
-      component: DineInTableComponent
-    },
-        {
-      path: 'ordertaken', 
-      component: OrderTakenComponent
-    },
-          {
-      path: 'additem', 
-      component: AddItemComponent
-    },
-            {
-      path: 'addremarks', 
-      component: AddRemarksComponent
-    },
-           {
-      path: 'orderlist', 
-      component: OrderListComponent
-    },
+  {
+    path: 'dineintable',
+    component: DineInTableComponent
+  },
+  {
+    path: 'ordertaken',
+    component: OrderTakenComponent
+  },
+  {
+    path: 'additem',
+    component: AddItemComponent
+  },
+  {
+    path: 'addremarks',
+    component: AddRemarksComponent
+  },
+  {
+    path: 'orderlist',
+    component: OrderListComponent
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule { 
-  
+export class PagesRoutingModule {
+
 }
