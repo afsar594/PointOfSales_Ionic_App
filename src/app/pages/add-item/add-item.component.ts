@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ModalController } from '@ionic/angular'; 
 import { AddRemarksComponent } from '../add-remarks/add-remarks.component';
+import { OrderListComponent } from '../order-list/order-list.component';
 
 @Component({
   selector: 'app-add-item',
@@ -14,10 +15,11 @@ import { AddRemarksComponent } from '../add-remarks/add-remarks.component';
 })
 export class AddItemComponent  implements OnInit {
 
-  constructor(private modalCtrl: ModalController,
+  constructor(private modalController: ModalController,  
+
    ) {}
  async openModal() {
-    const modal = await this.modalCtrl.create({
+    const modal = await this.modalController.create({
       component:  AddRemarksComponent,
         cssClass: 'custom-width-modal'
     });
@@ -25,8 +27,16 @@ export class AddItemComponent  implements OnInit {
  
   }
   closeForm() {
-    this.modalCtrl.dismiss();
+    this.modalController.dismiss();
   }
+   async orderlistForm() {
+      const modal = await this.modalController.create({
+        component: OrderListComponent,
+        cssClass: 'custom-width-modal',
+        
+      });
+      modal.present();
+    }
   ngOnInit() {}
 
 }
