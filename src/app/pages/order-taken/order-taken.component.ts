@@ -46,7 +46,9 @@ export class OrderTakenComponent implements OnInit {
   async openItemDialog(item: any) {
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
-      componentProps: { item },
+      componentProps: {
+        tableData: item, // ✅ passing the table object
+      },
       cssClass: 'custom-dialog',
     });
     await modal.present();
