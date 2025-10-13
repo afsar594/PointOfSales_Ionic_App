@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar color="success">
     <ion-title class="center-text">Amira Restaurant</ion-title>
+     <ion-buttons slot="end">
+      <ion-button fill="solid" color="danger" (click)="closeForm()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -88,12 +94,12 @@
     <ion-toolbar>
       <ion-col slot="start">
         <ion-button color="danger"
-          ><ion-icon name="arrow-back"></ion-icon>BACK</ion-button
+          ><ion-icon name="arrow-back"(click)="closeForm()"></ion-icon>BACK</ion-button
         >
       </ion-col>
       <ion-col slot="end">
         <ion-button color="success"
-          ><ion-icon name="arrow-down"></ion-icon>ORDER</ion-button
+          ><ion-icon name="arrow-down"  (click)="closeForm()"></ion-icon>ORDER</ion-button
         >
       </ion-col>
     </ion-toolbar>
