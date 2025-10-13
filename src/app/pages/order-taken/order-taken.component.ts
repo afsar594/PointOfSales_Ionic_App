@@ -27,7 +27,8 @@ export class OrderTakenComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
-    private generalAPI: GeneralItemsService
+    private generalAPI: GeneralItemsService,
+
   ) {}
 
   ngOnInit() {
@@ -67,8 +68,13 @@ export class OrderTakenComponent implements OnInit {
 
     await modal.present();
   }
+  openCancel(){
+     this.modalCtrl.dismiss();
+  }
+ openBack() {
+  this.router.navigate(['/pages/dineintable']);
+}
 
-  // Dummy food menu images
   menuItems = [
     { image: 'assets/img/food1.jpg', title: 'Maggi / Mee / Bihun / KueyTeow' },
     { image: 'assets/img/food2.jpg', title: 'Roti / Tosai / Chapati' },
