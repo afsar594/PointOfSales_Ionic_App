@@ -15,7 +15,15 @@ import { OrderListComponent } from '../order-list/order-list.component';
 })
 export class AddItemComponent implements OnInit {
   @Input() tableData: any;
+ quantity: number = 1;
 
+  increaseQty() {
+    this.quantity++;
+  }
+
+  decreaseQty() {
+    if (this.quantity > 1) this.quantity--;
+  }
   constructor(private modalController: ModalController) {}
   async openModal() {
     const modal = await this.modalController.create({

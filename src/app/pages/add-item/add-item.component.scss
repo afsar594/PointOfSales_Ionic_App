@@ -72,8 +72,8 @@
     // }
   .btnicon{
         margin-top: 30px;
-        height: 50px;
-        width: 50px;
+        height: 27px;
+        width: 35px;
     }
  
 }
@@ -109,4 +109,23 @@ height: 0% !important;
   width: 600px;      
   max-width: 90vw;    
   border-radius: 10px;  
+}
+.quantity-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  --padding-start: 0;
+  --padding-end: 0;
+  --border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+
+.qty-label {
+  font-weight: 600;
+  min-width: 30px;
+  text-align: center;
 }
