@@ -17,13 +17,20 @@ export class AddItemComponent implements OnInit {
   @Input() tableData: any;
  quantity: number = 1;
 
-  increaseQty() {
-    this.quantity++;
-  }
+increaseQty() {
+  this.quantity++;
+  this.tableData.qty = this.quantity;  // assign, not add
+  console.log('tableData', this.tableData);
+}
 
-  decreaseQty() {
-    if (this.quantity > 1) this.quantity--;
+decreaseQty() {
+  if (this.quantity > 1) {
+    this.quantity--;
   }
+  this.tableData.qty = this.quantity;  // assign, not add
+  console.log('tableData', this.tableData);
+}
+
   constructor(private modalController: ModalController) {}
   async openModal() {
     const modal = await this.modalController.create({
@@ -43,6 +50,7 @@ export class AddItemComponent implements OnInit {
     modal.present();
   }
   ngOnInit() {
+    this.tableData.qty=1;
     console.log('tableData', this.tableData);
   }
 }
