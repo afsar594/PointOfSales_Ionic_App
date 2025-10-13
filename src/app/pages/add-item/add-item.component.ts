@@ -52,15 +52,44 @@ export class AddItemComponent implements OnInit {
     this.modalController.dismiss();
   }
   async orderlistForm() {
+    if (!this.itemStore) {
+      this.itemStore = [];
+    }
+
+    if (this.tableData && this.tableData.itemId) {
+      const exists = this.itemStore.some(
+        (item: { itemId: any }) => item.itemId === this.tableData.itemId
+      );
+
+      if (!exists) {
+        this.itemStore.push({ ...this.tableData });
+      } else {
+        this.messageService.show('Item already exists!');
+        await this.modalController.dismiss();
+        return;
+      }
+    } else {
+      this.messageService.show('Something went wrong!');
+      await this.modalController.dismiss();
+      return;
+    }
+
     const modal = await this.modalController.create({
       component: OrderListComponent,
       cssClass: 'custom-width-modal',
       componentProps: {
-        itemStore: this.itemStore, // pass existing selected items
+        itemStore: this.itemStore,
       },
     });
-    modal.present();
+
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      this.itemStore = data;
+      console.log('Updated itemStore:', this.itemStore);
+    }
   }
+
   ngOnInit() {
     this.tableData.qty = 1;
     this.tableData.total = this.tableData?.unitPrice1;

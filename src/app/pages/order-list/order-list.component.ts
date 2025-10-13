@@ -36,12 +36,9 @@ export class OrderListComponent implements OnInit {
   }
 
   deleteSelected() {
-    if (confirm('Are you sure you want to delete selected items?')) {
-      this.orderList = this.orderList.filter(
-        (item: { selected: any }) => !item.selected
-      );
-      this.anyItemSelected = false;
-      console.log('Remaining items:', this.orderList);
-    }
+    this.orderList = this.orderList.filter(
+      (item: { selected: any }) => !item.selected
+    );
+    this.anyItemSelected = false;
   }
 }
