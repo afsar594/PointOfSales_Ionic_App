@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { AddRemarksComponent } from '../add-remarks/add-remarks.component';
 import { OrderListComponent } from '../order-list/order-list.component';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-add-item',
@@ -15,27 +16,35 @@ import { OrderListComponent } from '../order-list/order-list.component';
 })
 export class AddItemComponent implements OnInit {
   @Input() tableData: any;
- quantity: number = 1;
+  quantity: number = 1;
+  itemStore: any;
 
-increaseQty() {
-  this.quantity++;
-  this.tableData.qty = this.quantity;  // assign, not add
-  console.log('tableData', this.tableData);
-}
-
-decreaseQty() {
-  if (this.quantity > 1) {
-    this.quantity--;
+  increaseQty() {
+    this.quantity++;
+    this.updateQuantityAndTotal();
   }
-  this.tableData.qty = this.quantity;  // assign, not add
-  console.log('tableData', this.tableData);
-}
 
-  constructor(private modalController: ModalController) {}
+  decreaseQty() {
+    if (this.quantity > 1) {
+      this.quantity--;
+      this.updateQuantityAndTotal();
+    }
+  }
+
+  private updateQuantityAndTotal() {
+    this.tableData.qty = this.quantity;
+    this.tableData.total = Number(
+      (this.tableData?.unitPrice1 * this.tableData?.qty).toFixed(2)
+    );
+  }
+
+  constructor(
+    private modalController: ModalController,
+    private messageService: ToastService
+  ) {}
   async openModal() {
     const modal = await this.modalController.create({
       component: AddRemarksComponent,
-      cssClass: 'custom-width-modal',
     });
     modal.present();
   }
@@ -46,11 +55,34 @@ decreaseQty() {
     const modal = await this.modalController.create({
       component: OrderListComponent,
       cssClass: 'custom-width-modal',
+      componentProps: {
+        itemStore: this.itemStore, // pass existing selected items
+      },
     });
     modal.present();
   }
   ngOnInit() {
-    this.tableData.qty=1;
-    console.log('tableData', this.tableData);
+    this.tableData.qty = 1;
+    this.tableData.total = this.tableData?.unitPrice1;
+  }
+  nextSelect() {
+    if (!this.itemStore) {
+      this.itemStore = [];
+    }
+
+    if (this.tableData && this.tableData.itemId) {
+      const exists = this.itemStore.some(
+        (item: { itemId: any }) => item.itemId === this.tableData.itemId
+      );
+
+      if (!exists) {
+        this.itemStore.push({ ...this.tableData });
+      } else {
+        this.messageService.show('Item already exists!');
+      }
+    } else {
+      this.messageService.show('Something went wrorng!');
+    }
+    this.modalController.dismiss(this.itemStore);
   }
 }

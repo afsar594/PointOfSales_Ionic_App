@@ -29,14 +29,14 @@
     </div>
   </div>
 
-
-
   <!-- Table and Pax -->
   <ion-item>
     <ion-label>TABLE: <strong>T-21</strong></ion-label>
     <ion-label position="end">PAX:</ion-label>
     <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
-      <ion-select-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">{{ num }}</ion-select-option>
+      <ion-select-option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">{{
+        num
+      }}</ion-select-option>
     </ion-select>
   </ion-item>
 
@@ -49,9 +49,10 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>Order List</ion-card-title>
-
     </ion-card-header>
+
     <ion-card-content>
+      <!-- Add Item button -->
       <ion-button expand="block" color="primary" fill="solid">
         <ion-icon name="add-circle" slot="start"></ion-icon>
         Add Item
@@ -59,27 +60,42 @@
 
       <ion-list>
         <ion-item *ngFor="let item of orderList">
-          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-checkbox
+            slot="start"
+            [(ngModel)]="item.selected"
+            (ionChange)="onSelectionChange()"
+          ></ion-checkbox>
+
           <ion-label>
-            <h2>{{ item.name }}</h2>
+            <h2>{{ item?.itemName }}</h2>
           </ion-label>
-          <ion-badge color="warning">{{ item.qty }}x</ion-badge>
-          <ion-badge color="success">RM {{ item.price.toFixed(2) }}</ion-badge>
+
+          <ion-badge color="warning">{{ item?.qty }}x</ion-badge>
+          <ion-badge color="success">RM {{ item.total }}</ion-badge>
         </ion-item>
       </ion-list>
+
+      <div *ngIf="anyItemSelected" class="ion-text-center">
+        <ion-button color="danger" (click)="deleteSelected()">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Delete Selected
+        </ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
 
-  <!-- Bottom Buttons -->
   <ion-footer>
     <ion-toolbar>
       <ion-col slot="start">
-        <ion-button color="danger"><ion-icon name="arrow-back"></ion-icon>BACK</ion-button>
+        <ion-button color="danger"
+          ><ion-icon name="arrow-back"></ion-icon>BACK</ion-button
+        >
       </ion-col>
       <ion-col slot="end">
-        <ion-button color="success"><ion-icon name="arrow-down"></ion-icon>ORDER</ion-button>
+        <ion-button color="success"
+          ><ion-icon name="arrow-down"></ion-icon>ORDER</ion-button
+        >
       </ion-col>
     </ion-toolbar>
   </ion-footer>
-
 </ion-content>
