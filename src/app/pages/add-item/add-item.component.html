@@ -1,7 +1,8 @@
 <!-- <ion-content class="ion-padding content-center"> -->
 <!-- <div class="card-wrapper"> -->
 <!-- <ion-card> -->
-<ion-header>
+
+<!-- <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Add Item</ion-title>
     <ion-buttons slot="end">
@@ -12,15 +13,32 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-card-content class="ion-padding">
-  <ion-item>
-    <ion-input
-      type="text"
-      label="Item"
-      labelPlacement="floating"
-      [readonly]="true"
-      [value]="tableData?.itemName"
-    ></ion-input>
+   
+ <ion-card-content class="ion-padding" >
+  
+      <ion-grid>
+       <ion-row class="table-header">
+        <ion-col size="1"></ion-col>
+        <ion-col><strong>Item Name</strong></ion-col>
+        <ion-col size="2" class="ion-text-center"><strong>Qty</strong></ion-col>
+        <ion-col size="3" class="ion-text-center"><strong>Total (RM)</strong></ion-col>
+      </ion-row>
+
+       <ion-row *ngFor="let item of orderList">
+        <ion-col size="1">
+          <ion-checkbox [(ngModel)]="item.selected" (ionChange)="onSelectionChange()"></ion-checkbox>
+        </ion-col>
+
+        <ion-col>{{ item?.itemName }}</ion-col>
+
+        <ion-col size="2" class="ion-text-center">{{ item?.qty }}x</ion-col>
+
+        <ion-col size="3" class="ion-text-center">RM {{ item.total }}</ion-col>
+      </ion-row>
+    </ion-grid> -->
+<!-- <ion-item>
+    <ion-input type="text" label="Item" labelPlacement="floating" [readonly]="true"
+      [value]="tableData?.itemName"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Quantity</ion-label>
@@ -36,58 +54,181 @@
       </ion-button>
     </div>
   </ion-item>
-
   <ion-item>
-    <ion-input
-      label="Special Note"
-      label-placement="floating"
-      type="text"
-    ></ion-input>
-    <ion-button
-      class="btnicon"
-      slot="end"
-      color="primary"
-      (click)="openModal()"
-    >
+    <ion-input label="Special Note" label-placement="floating" type="text"></ion-input>
+    <ion-button class="btnicon" slot="end" color="primary" (click)="openModal()">
       <ion-icon name="create"></ion-icon>
     </ion-button>
   </ion-item>
   <ion-item>
-    <ion-input
-      label="Price(RM)"
-      label-placement="floating"
-      [readonly]="true"
-      [value]="tableData?.unitPrice1"
-      placeholder="Enter text"
-    ></ion-input>
+    <ion-input label="Price(RM)" label-placement="floating" [readonly]="true" [value]="tableData?.unitPrice1"
+      placeholder="Enter text"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input
-      label="GST(RM)"
-      label-placement="floating"
-      [readonly]="true"
-      placeholder="Enter text"
-    ></ion-input>
+    <ion-input label="GST(RM)" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input
-      label="Total Price"
-      label-placement="floating"
-      [readonly]="true"
-      [value]="tableData?.total | number : '1.2-2'"
-      placeholder="Enter text"
-    ></ion-input>
-  </ion-item>
-  <div class="button-group">
+    <ion-input label="Total Price" label-placement="floating" [readonly]="true"
+      [value]="tableData?.total | number : '1.2-2'" placeholder="Enter text"></ion-input>
+  </ion-item>   -->
+<!-- <div class="button-group">
     <ion-button color="danger" expand="block">Back</ion-button>
-    <ion-button color="success" expand="block" (click)="nextSelect()"
-      >Next</ion-button
-    >
-    <ion-button color="primary" expand="block" (click)="orderlistForm()"
-      >OK</ion-button
-    >
+    <ion-button color="success" expand="block" (click)="nextSelect()">Next</ion-button>
+    <ion-button color="primary" expand="block" (click)="orderlistForm()">OK</ion-button>
   </div>
-</ion-card-content>
-<!-- </ion-card> -->
-<!-- </div> -->
-<!-- </ion-content> -->
+</ion-card-content> -->
+
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title class="center-text">Amira Restaurant</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="solid" color="danger" (click)="closeForm()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="top-toolbar">
+    <div class="left-icon">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+
+    <div class="right-buttons">
+      <div class="icon-button red">
+        <ion-icon name="home-outline"></ion-icon>
+      </div>
+      <div class="icon-button green">
+        <ion-icon name="grid-outline"></ion-icon>
+      </div>
+      <div class="icon-button yellow">
+        <ion-icon name="restaurant-outline"></ion-icon>
+      </div>
+      <div class="icon-button purple">
+        <ion-icon name="search-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-item>
+    <ion-label>TABLE: <strong>T-21</strong></ion-label>
+    <ion-label position="end">PAX:</ion-label>
+    <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
+      <ion-select-option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">{{
+        num
+        }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-toolbar color="light">
+        <ion-title>Order List</ion-title>
+        <ion-buttons slot="end">
+          <ion-button>
+            <ion-icon name="add-circle" slot="start"></ion-icon>
+            Add Item
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+
+    </ion-card-header>
+
+
+    <ion-card-content>
+
+      <ion-grid class="order-table">
+
+        <!-- Header Row -->
+        <ion-row class="table-header">
+          <ion-col size="1"></ion-col> <!-- Checkbox space -->
+          <ion-col><strong>Item Name</strong></ion-col>
+          <ion-col size="2" class="ion-text-center"><strong>Qty</strong></ion-col>
+          <ion-col size="3" class="ion-text-center"><strong>Price(RM)</strong></ion-col>
+<ion-col size="2" class="ion-text-center header-with-icon">
+   <ion-button fill="clear" size="small">
+    <ion-icon name="ellipsis-vertical"></ion-icon>
+  </ion-button>
+</ion-col>
+
+        </ion-row>
+
+        <!-- Data Rows -->
+        <ion-row *ngFor="let item of orderList" class="table-row">
+          <ion-col size="1">
+            <ion-checkbox [(ngModel)]="item.selected" (ionChange)="onSelectionChange()">
+            </ion-checkbox>
+          </ion-col>
+
+          <ion-col>
+            {{ item?.itemName }}
+          </ion-col>
+
+          <ion-col size="2" class="ion-text-center">
+            <div class="quantity-container">
+              <ion-button class="qty-btn minus" (click)="decreaseQty()">
+                <ion-icon name="remove" slot="icon-only"></ion-icon>
+              </ion-button>
+
+              <div class="qty-label">{{ quantity }}</div>
+
+              <ion-button class="qty-btn plus" (click)="increaseQty()">
+                <ion-icon name="add" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-col>
+
+          <ion-col size="3" class="ion-text-center">
+            RM {{ item.total }}
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+
+      <div *ngIf="anyItemSelected" class="ion-text-center">
+        <ion-button color="danger" (click)="deleteSelected()">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Delete Selected
+        </ion-button>
+      </div>
+    </ion-card-content>
+  <ion-footer>
+  <ion-toolbar>
+
+    <!-- Left side buttons -->
+    <ion-buttons slot="start">
+      <ion-button color="danger" fill="solid" (click)="closeForm()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Back
+      </ion-button>
+
+      <ion-button color="success" fill="solid" (click)="nextSelect()">
+         Next
+           <ion-icon name="arrow-forward" slot="end"></ion-icon>
+
+      </ion-button>
+
+      <ion-button color="primary" fill="solid" (click)="orderlistForm()">
+        OK
+      </ion-button>
+    </ion-buttons>
+
+    <!-- Right side button -->
+    <ion-buttons slot="end">
+      <ion-button color="success" fill="solid" (click)="closeForm()">
+        <ion-icon name="arrow-down" slot="start"></ion-icon>
+        Order
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-footer>
+  </ion-card>
+
+
+
+</ion-content>

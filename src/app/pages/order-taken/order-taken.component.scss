@@ -77,3 +77,12 @@
   padding-top: 100%; // Makes it square
 }
 }
+.custom-dialog {
+  --width: 60%;
+  --max-width: 600px;
+  --height: auto;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.4; /* dim background */
+}
+
+ 

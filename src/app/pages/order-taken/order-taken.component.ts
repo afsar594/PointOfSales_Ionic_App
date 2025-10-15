@@ -47,19 +47,17 @@ export class OrderTakenComponent implements OnInit {
     this.router.navigate(['/pages/additem'], { state: { data: item } });
   }
 
-  // ✅ Updated: Opens AddItem modal and gets selected items back
-  async openItemDialog(item: any) {
+   async openItemDialog(item: any) {
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
       componentProps: {
         tableData: item,
-        itemStore: this.itemStore, // pass existing selected items
+        itemStore: this.itemStore, 
       },
       cssClass: 'custom-dialog',
-    });
+     });
 
-    // When modal closes, get updated items
-    modal.onDidDismiss().then((result) => {
+     modal.onDidDismiss().then((result) => {
       if (result.data) {
         this.itemStore = result.data; // ✅ keep all selected items
         console.log('✅ Updated itemStore:', this.itemStore);
@@ -72,7 +70,7 @@ export class OrderTakenComponent implements OnInit {
      this.modalCtrl.dismiss();
   }
  openBack() {
-  this.router.navigate(['/pages/dineintable']);
+  this.router.navigateByUrl('/pages/dineintable');
 }
 
   menuItems = [

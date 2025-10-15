@@ -1,46 +1,98 @@
-// .content-center {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 100%; 
-
-//  }
-
-// .card-wrapper {
-//   width: 100%;
-//   max-width: 500px; // adjust as needed
-//      justify-content: center;
-//       margin-left: 5%;
-//     // margin-top: 5%;
-
-// }
-
-.item-label {
-   font-size: 1.1rem;
-  margin-bottom: 4px;
+ .center-text {
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  font-size: 20px;
+  color: #fff;
 }
 
-.item-name {
-  color: #b71c1c;
-  font-size: 1.2rem;
-  margin-bottom: 16px;
+.nav-buttons ion-button {
+  height: 40px;
+  width: 100%;
 }
 
- 
+ion-badge {
+  margin-left: 6px;
+  font-size: 0.9em;
+}
+.top-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #fff;
+}
+
+.left-icon ion-icon {
+  font-size: 24px;
+  color: #000;
+}
+
+.right-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border-radius: 2px;
+}
+
+.red { background-color: #f44336; }
+.green { background-color: #4caf50; }
+.yellow { background-color: #ff9800; }
+.purple { background-color: #673ab7; }
+
+.icon-button ion-icon {
+  font-size: 18px;
+}
+.table-header {
+  border-bottom: 1px solid var(--ion-color-medium);
+  margin-bottom: 8px;
+
+  ion-col {
+    font-weight: 600;
+  }
+}
+.button-group{
+  display: flex;
+  margin-left: 50px;
+  gap: 10px;
+ }
+.order-table {
+  .table-header {
+    font-weight: 600;
+    border-bottom: 2px solid var(--ion-color-medium);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+  }
+
+  .table-row {
+    border-bottom: 1px solid var(--ion-color-light);
+    padding: 4px 0;
+  }
+
+  .table-row:last-child {
+    border-bottom: none;
+  }
+}
 .quantity-container {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 12px;
-  margin-top: 8px;
-}
+  gap: 7px;
+ }
 
 .qty-btn {
-  width: 48px;
-  height: 48px;
-  --border-radius: 4px;
+  width: 15px;
+  height: 15px;
+  --border-radius: 25px;
   --box-shadow: none;
-  font-size: 20px;
+  font-size: 10px;
 }
 
 .minus {
@@ -52,80 +104,9 @@
   --background: #4caf50; // green
   --color: #fff;
 }
-
-.qty-label {
-  font-size: 16px;
-  font-weight: 500;
-  min-width: 70px;
-  text-align: center;
+ion-footer ion-button {
+  margin-right: 8px;
 }
 
-.button-group {
-  margin: 10px 0;
-  display: flex;
-   gap: 5px;
-}
-::ng-deep{
-    // .button-group ion-button{
-    //     height: 50px;
-    //     width:200px
-    // }
-  .btnicon{
-        margin-top: 30px;
-        height: 27px;
-        width: 35px;
-    }
+
  
-}
-:host{
-height: 0% !important;
-}
-@media screen and (max-width: 768px) {
- 
- .btnicon{
-        margin-top: 30px;
-        height: 40px;
-        width: 40px;
-    }
-.quantity-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
-  margin-top: 8px;
-}
-
-.qty-btn {
-  width: 18px;
-  height: 18px;
-  --border-radius: 4px;
-  --box-shadow: none;
-  font-size: 14px;
-}
-}
- 
-
-.custom-width-modal .modal-wrapper {
-  width: 600px;      
-  max-width: 90vw;    
-  border-radius: 10px;  
-}
-.quantity-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.qty-btn {
-  --padding-start: 0;
-  --padding-end: 0;
-  --border-radius: 50%;
-  height: 32px;
-  width: 32px;
-}
-
-.qty-label {
-  font-weight: 600;
-  min-width: 30px;
-  text-align: center;
-}

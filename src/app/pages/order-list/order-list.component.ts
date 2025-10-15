@@ -22,16 +22,16 @@ export class OrderListComponent implements OnInit {
   //   { name: 'Kuey Teow', qty: 1, price: 4.5 },
   //   { name: 'Maggi Goreng', qty: 1, price: 4.5 },
   // ];
-  constructor(private modalCtrl: ModalController,private router: Router) {}
-closeForm() {
+  constructor(private modalCtrl: ModalController, private router: Router) { }
+  closeForm() {
     this.modalCtrl.dismiss();
   }
-   openBack() {
-  this.router.navigate(['/ordertaken']);
-}
- openCancel() {
-  this.router.navigate(['/ordertaken']);
-}
+  openBack() {
+    this.router.navigate(['ordertaken']);
+  }
+  openCancel() {
+    this.router.navigate(['/pages/ordertaken']);
+  }
   ngOnInit() {
     console.log('comming', this.itemStore);
     this.orderList = this.itemStore;

@@ -11,15 +11,12 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- TOP TOOLBAR ROW -->
-  <div class="top-toolbar">
-    <!-- LEFT: Hamburger Icon -->
-    <div class="left-icon">
+   <div class="top-toolbar">
+     <div class="left-icon">
       <ion-icon name="menu-outline"></ion-icon>
     </div>
 
-    <!-- RIGHT: Colored Square Buttons -->
-    <div class="right-buttons">
+     <div class="right-buttons">
       <div class="icon-button red">
         <ion-icon name="home-outline"></ion-icon>
       </div>
@@ -35,8 +32,7 @@
     </div>
   </div>
 
-  <!-- Table and Pax -->
-  <ion-item>
+   <ion-item>
     <ion-label>TABLE: <strong>T-21</strong></ion-label>
     <ion-label position="end">PAX:</ion-label>
     <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
@@ -46,23 +42,19 @@
     </ion-select>
   </ion-item>
 
-  <!-- Order Button -->
-  <div class="ion-text-end">
-    <ion-button color="success">ORDER</ion-button>
-  </div>
-
-  <!-- Order List -->
+  
   <ion-card>
     <ion-card-header>
       <ion-card-title>Order List</ion-card-title>
+            <ion-button expand="block" color="primary" fill="solid">
+        <ion-icon name="add-circle" slot="start"></ion-icon>
+        Add Item
+      </ion-button>
+
     </ion-card-header>
 
     <ion-card-content>
       <!-- Add Item button -->
-      <ion-button expand="block" color="primary" fill="solid">
-        <ion-icon name="add-circle" slot="start"></ion-icon>
-        Add Item
-      </ion-button>
 
       <ion-list>
         <ion-item *ngFor="let item of orderList">

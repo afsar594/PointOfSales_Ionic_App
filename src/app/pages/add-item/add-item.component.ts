@@ -16,9 +16,12 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class AddItemComponent implements OnInit {
   @Input() tableData: any;
-  quantity: number = 1;
-  itemStore: any;
+    @Input() itemStore: any;
 
+  quantity: number = 1;
+  // itemStore: any;
+  pax = 1;
+  orderList: any;
   increaseQty() {
     this.quantity++;
     this.updateQuantityAndTotal();
@@ -90,9 +93,12 @@ export class AddItemComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit()
+   {
     this.tableData.qty = 1;
     this.tableData.total = this.tableData?.unitPrice1;
+      console.log('comming', this.itemStore);
+    this.orderList = this.itemStore;
   }
   nextSelect() {
     if (!this.itemStore) {
@@ -113,5 +119,18 @@ export class AddItemComponent implements OnInit {
       this.messageService.show('Something went wrorng!');
     }
     this.modalController.dismiss(this.itemStore);
+  }
+  anyItemSelected = false;
+
+  onSelectionChange() {
+    this.anyItemSelected = this.orderList.some(
+      (item: { selected: any }) => item.selected
+    );
+  }
+   deleteSelected() {
+    this.orderList = this.orderList.filter(
+      (item: { selected: any }) => !item.selected
+    );
+    this.anyItemSelected = false;
   }
 }
