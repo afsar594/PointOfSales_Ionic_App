@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="success">
     <ion-title class="center-text">Amira Restaurant</ion-title>
-     <ion-buttons slot="end">
+    <ion-buttons slot="end">
       <ion-button fill="solid" color="danger" (click)="closeForm()">
         Close
         <ion-icon slot="end" name="close"></ion-icon>
@@ -11,12 +11,12 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-   <div class="top-toolbar">
-     <div class="left-icon">
+  <div class="top-toolbar">
+    <div class="left-icon">
       <ion-icon name="menu-outline"></ion-icon>
     </div>
 
-     <div class="right-buttons">
+    <div class="right-buttons">
       <div class="icon-button red">
         <ion-icon name="home-outline"></ion-icon>
       </div>
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-   <ion-item>
+  <ion-item>
     <ion-label>TABLE: <strong>T-21</strong></ion-label>
     <ion-label position="end">PAX:</ion-label>
     <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
@@ -42,15 +42,13 @@
     </ion-select>
   </ion-item>
 
-  
   <ion-card>
     <ion-card-header>
       <ion-card-title>Order List</ion-card-title>
-            <ion-button expand="block" color="primary" fill="solid">
+      <ion-button expand="block" color="primary" fill="solid">
         <ion-icon name="add-circle" slot="start"></ion-icon>
         Add Item
       </ion-button>
-
     </ion-card-header>
 
     <ion-card-content>
@@ -86,12 +84,14 @@
     <ion-toolbar>
       <ion-col slot="start">
         <ion-button color="danger"
-          ><ion-icon name="arrow-back"(click)="closeForm()"></ion-icon>BACK</ion-button
+          ><ion-icon name="arrow-back" (click)="closeForm()"></ion-icon
+          >BACK</ion-button
         >
       </ion-col>
       <ion-col slot="end">
         <ion-button color="success"
-          ><ion-icon name="arrow-down"  (click)="closeForm()"></ion-icon>ORDER</ion-button
+          ><ion-icon name="arrow-down" (click)="openItemDialog()"></ion-icon
+          >ORDER</ion-button
         >
       </ion-col>
     </ion-toolbar>

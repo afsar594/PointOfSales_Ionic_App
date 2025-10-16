@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
+import { AddItemComponent } from '../add-item/add-item.component';
 
 @Component({
   selector: 'app-order-list',
@@ -22,7 +23,7 @@ export class OrderListComponent implements OnInit {
   //   { name: 'Kuey Teow', qty: 1, price: 4.5 },
   //   { name: 'Maggi Goreng', qty: 1, price: 4.5 },
   // ];
-  constructor(private modalCtrl: ModalController, private router: Router) { }
+  constructor(private modalCtrl: ModalController, private router: Router) {}
   closeForm() {
     this.modalCtrl.dismiss();
   }
@@ -49,5 +50,23 @@ export class OrderListComponent implements OnInit {
       (item: { selected: any }) => !item.selected
     );
     this.anyItemSelected = false;
+  }
+  async openItemDialog() {
+    const modal = await this.modalCtrl.create({
+      component: AddItemComponent,
+      componentProps: {
+        itemStore: this.itemStore,
+      },
+      cssClass: 'custom-dialog',
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        this.itemStore = result.data; // ✅ keep all selected items
+        console.log('✅ Updated itemStore:', this.itemStore);
+      }
+    });
+
+    await modal.present();
   }
 }
