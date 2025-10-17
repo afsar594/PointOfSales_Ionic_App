@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { OrderListComponent } from '../order-list/order-list.component';
 
 @Component({
   selector: 'app-add-item',
@@ -15,7 +16,7 @@ export class AddItemComponent implements OnInit {
   orderList: any[] = [];
   anyItemSelected: boolean = false;
   pax: any;
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
     this.orderList = this.itemStore.map((item) => ({
@@ -54,7 +55,12 @@ export class AddItemComponent implements OnInit {
   closeForm() {
     this.modalController.dismiss();
   }
-  order() {
-    this.modalController.dismiss();
+
+  async order() {
+    const modal = await this.modalController.create({
+      component: OrderListComponent,
+      
+      cssClass: 'custom-dialog',
+    });
   }
 }

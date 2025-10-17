@@ -44,39 +44,34 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Order List</ion-card-title>
-      <ion-button expand="block" color="primary" fill="solid">
-        <ion-icon name="add-circle" slot="start"></ion-icon>
-        Add Item
-      </ion-button>
+      <ion-card-title>Total Bill</ion-card-title>
+       
     </ion-card-header>
 
     <ion-card-content>
-      <!-- Add Item button -->
+        <ion-item>
+    <ion-input label="Gross Amount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
+  </ion-item>
+    <ion-item>
+    <ion-input label="Vat Amount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
+  </ion-item>
+    <ion-item>
+    <ion-input label="Dissount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
+  </ion-item>
+    <ion-item>
+    <ion-input label="Net Amount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
+  </ion-item>
+<ion-item-divider></ion-item-divider>
 
-      <ion-list>
-        <ion-item *ngFor="let item of orderList">
-          <ion-checkbox
-            slot="start"
-            [(ngModel)]="item.selected"
-            (ionChange)="onSelectionChange()"
-          ></ion-checkbox>
+<ion-item>
+  <ion-input
+    label="Total"
+    label-placement="floating"
+    [readonly]="true"
+    placeholder="Enter text">
+  </ion-input>
+</ion-item>
 
-          <ion-label>
-            <h2>{{ item?.itemName }}</h2>
-          </ion-label>
-
-          <ion-badge color="warning">{{ item?.qty }}x</ion-badge>
-          <ion-badge color="success">RM {{ item.total }}</ion-badge>
-        </ion-item>
-      </ion-list>
-
-      <div *ngIf="anyItemSelected" class="ion-text-center">
-        <ion-button color="danger" (click)="deleteSelected()">
-          <ion-icon name="trash-outline" slot="start"></ion-icon>
-          Delete Selected
-        </ion-button>
-      </div>
     </ion-card-content>
   </ion-card>
 
