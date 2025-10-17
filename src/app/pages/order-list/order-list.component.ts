@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-import { ModalController } from '@ionic/angular';
-import { AddItemComponent } from '../add-item/add-item.component';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-order-list',
@@ -14,59 +12,61 @@ import { AddItemComponent } from '../add-item/add-item.component';
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class OrderListComponent implements OnInit {
-  @Input() itemStore: any;
+  @Input() tableData: any;
 
   pax = 1;
-  orderList: any;
-  // orderList = [
-  //   { name: 'Bihun Goreng (No Meat)', qty: 2, price: 4.5 },
-  //   { name: 'Kuey Teow', qty: 1, price: 4.5 },
-  //   { name: 'Maggi Goreng', qty: 1, price: 4.5 },
-  // ];
+  orderList: any[] = [];
+  GrossAmount: number = 0;
+  VatAmount: number = 0;
+  Discount: number = 0;
+  NetAmount: number = 0;
+
   constructor(private modalCtrl: ModalController, private router: Router) {}
+
+  ngOnInit() {
+    console.log('Incoming data:', this.tableData);
+
+    // ensure orderList is always an array
+    if (Array.isArray(this.tableData)) {
+      this.orderList = this.tableData;
+    } else if (this.tableData) {
+      this.orderList = [this.tableData];
+    } else {
+      this.orderList = [];
+    }
+
+    this.calculateGrossAmount();
+    this.calculateNetAmount();
+  }
+
+  // ✅ Calculate total of all item totals
+  calculateGrossAmount() {
+    this.GrossAmount = this.orderList.reduce(
+      (sum, item) => sum + (Number(item.total) || 0),
+      0
+    );
+    this.GrossAmount = Number(this.GrossAmount.toFixed(2));
+  }
+
+  // ✅ Recalculate Net Amount whenever user changes VAT or Discount
+  calculateNetAmount() {
+    const gross = this.GrossAmount || 0;
+    const vat = this.VatAmount || 0;
+    const discount = this.Discount || 0;
+
+    // Net = Gross + VAT - Discount
+    this.NetAmount = Number((gross + vat - discount).toFixed(2));
+  }
+
   closeForm() {
     this.modalCtrl.dismiss();
   }
+
   openBack() {
     this.router.navigate(['ordertaken']);
   }
+
   openCancel() {
     this.router.navigate(['/pages/ordertaken']);
-  }
-  ngOnInit() {
-    console.log('comming', this.itemStore);
-    this.orderList = this.itemStore;
-  }
-  anyItemSelected = false;
-
-  onSelectionChange() {
-    this.anyItemSelected = this.orderList.some(
-      (item: { selected: any }) => item.selected
-    );
-  }
-
-  deleteSelected() {
-    this.orderList = this.orderList.filter(
-      (item: { selected: any }) => !item.selected
-    );
-    this.anyItemSelected = false;
-  }
-  async openItemDialog() {
-    const modal = await this.modalCtrl.create({
-      component: AddItemComponent,
-      componentProps: {
-        itemStore: this.itemStore,
-      },
-      cssClass: 'custom-dialog',
-    });
-
-    modal.onDidDismiss().then((result) => {
-      if (result.data) {
-        this.itemStore = result.data; // ✅ keep all selected items
-        console.log('✅ Updated itemStore:', this.itemStore);
-      }
-    });
-
-    await modal.present();
   }
 }

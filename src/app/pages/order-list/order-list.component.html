@@ -11,84 +11,78 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="top-toolbar">
-    <div class="left-icon">
-      <ion-icon name="menu-outline"></ion-icon>
-    </div>
-
-    <div class="right-buttons">
-      <div class="icon-button red">
-        <ion-icon name="home-outline"></ion-icon>
-      </div>
-      <div class="icon-button green">
-        <ion-icon name="grid-outline"></ion-icon>
-      </div>
-      <div class="icon-button yellow">
-        <ion-icon name="restaurant-outline"></ion-icon>
-      </div>
-      <div class="icon-button purple">
-        <ion-icon name="search-outline"></ion-icon>
-      </div>
-    </div>
-  </div>
-
   <ion-item>
     <ion-label>TABLE: <strong>T-21</strong></ion-label>
     <ion-label position="end">PAX:</ion-label>
     <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
-      <ion-select-option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">{{
-        num
-      }}</ion-select-option>
+      <ion-select-option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">
+        {{ num }}
+      </ion-select-option>
     </ion-select>
   </ion-item>
 
   <ion-card>
     <ion-card-header>
       <ion-card-title>Total Bill</ion-card-title>
-       
     </ion-card-header>
 
     <ion-card-content>
-        <ion-item>
-    <ion-input label="Gross Amount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
-  </ion-item>
-    <ion-item>
-    <ion-input label="Vat Amount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
-  </ion-item>
-    <ion-item>
-    <ion-input label="Dissount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
-  </ion-item>
-    <ion-item>
-    <ion-input label="Net Amount" label-placement="floating" [readonly]="true" placeholder="Enter text"></ion-input>
-  </ion-item>
-<ion-item-divider></ion-item-divider>
+      <ion-item>
+        <ion-input
+          label="Gross Amount"
+          label-placement="floating"
+          [readonly]="true"
+          [value]="GrossAmount"
+        ></ion-input>
+      </ion-item>
 
-<ion-item>
-  <ion-input
-    label="Total"
-    label-placement="floating"
-    [readonly]="true"
-    placeholder="Enter text">
-  </ion-input>
-</ion-item>
+      <ion-item>
+        <ion-input
+          type="number"
+          label="VAT Amount"
+          label-placement="floating"
+          [(ngModel)]="VatAmount"
+          (ionInput)="calculateNetAmount()"
+          placeholder="Enter VAT"
+        ></ion-input>
+      </ion-item>
 
+      <ion-item>
+        <ion-input
+          type="number"
+          label="Discount"
+          label-placement="floating"
+          [(ngModel)]="Discount"
+          (ionInput)="calculateNetAmount()"
+          placeholder="Enter Discount"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Net Amount"
+          label-placement="floating"
+          [readonly]="true"
+          [value]="NetAmount"
+        ></ion-input>
+      </ion-item>
     </ion-card-content>
   </ion-card>
-
-  <ion-footer>
-    <ion-toolbar>
-      <ion-col slot="start">
-        <ion-button color="danger"
-          ><ion-icon name="arrow-back" (click)="closeForm()"></ion-icon
-          >BACK</ion-button
-        >
-      </ion-col>
-      <ion-col slot="end">
-        <ion-button color="success"
-          ><ion-icon name="arrow-down" (click)="openItemDialog()"></ion-icon
-          >ORDER</ion-button
-        >
-      </ion-col>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-col slot="start">
+      <ion-button color="danger" (click)="openBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+        BACK
+      </ion-button>
+    </ion-col>
+    <ion-col slot="end">
+      <ion-button color="success">
+        <ion-icon name="arrow-down"></ion-icon>
+        ORDER
+      </ion-button>
+    </ion-col>
+  </ion-toolbar>
+</ion-footer>
