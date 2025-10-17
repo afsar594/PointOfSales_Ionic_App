@@ -1,6 +1,6 @@
- .center-text {
+.center-text {
   text-align: center;
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   font-size: 20px;
   color: #fff;
 }
@@ -42,10 +42,18 @@ ion-badge {
   border-radius: 2px;
 }
 
-.red { background-color: #f44336; }
-.green { background-color: #4caf50; }
-.yellow { background-color: #ff9800; }
-.purple { background-color: #673ab7; }
+.red {
+  background-color: #f44336;
+}
+.green {
+  background-color: #4caf50;
+}
+.yellow {
+  background-color: #ff9800;
+}
+.purple {
+  background-color: #673ab7;
+}
 
 .icon-button ion-icon {
   font-size: 18px;
@@ -58,11 +66,11 @@ ion-badge {
     font-weight: 600;
   }
 }
-.button-group{
+.button-group {
   display: flex;
   margin-left: 50px;
   gap: 10px;
- }
+}
 .order-table {
   .table-header {
     font-weight: 600;
@@ -85,7 +93,7 @@ ion-badge {
   align-items: center;
   justify-content: flex-start;
   gap: 7px;
- }
+}
 
 .qty-btn {
   width: 15px;
@@ -107,6 +115,3 @@ ion-badge {
 ion-footer ion-button {
   margin-right: 8px;
 }
-
-
- 

@@ -1,8 +1,12 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-searchbar [(ngModel)]="searchText" placeholder="Search" animated="true" showCancelButton="never"
-      style="--background: white; --border-radius: 4px; width: 200px">
-    </ion-searchbar>
+    <ion-searchbar
+      [(ngModel)]="searchText"
+      placeholder="Search items..."
+      animated="true"
+      showCancelButton="never"
+      style="--background: white; --border-radius: 6px; width: 230px"
+    ></ion-searchbar>
 
     <ion-buttons slot="end">
       <ion-button fill="solid" color="danger" (click)="closeForm()">
@@ -15,51 +19,59 @@
 
 <ion-content class="ion-padding">
   <ion-grid>
-    <ion-row>
-      <ion-col size="6" size-sm="4" size-md="3" size-lg="3" *ngFor="let item of selectedCatItem">
-        <div class="square-card">
-          <ion-card button>
+    <ion-row class="item-grid">
+      <ion-col
+        size="6"
+        size-sm="4"
+        size-md="3"
+        size-lg="3"
+        *ngFor="let item of selectedCatItem"
+      >
+        <div
+          class="square-card"
+          [class.selected]="item.selected"
+          (click)="toggleSelection(item)"
+        >
+          <ion-card button class="item-card">
             <div class="card-content-wrapper">
-              <div class="image-wrapper">
-                <img [src]="item.image" (click)="openItemDialog(item)" />
-              </div>
               <div class="text-wrapper">
                 {{ item.itemName }}
+                <ion-icon
+                  *ngIf="item.selected"
+                  name="checkmark-circle"
+                  class="selected-icon"
+                ></ion-icon>
               </div>
             </div>
           </ion-card>
         </div>
       </ion-col>
     </ion-row>
-    <!-- <ion-row>
-      <ion-col
-        size="6"
-        size-sm="4"
-        size-md="3"
-        size-lg="3"
-        *ngFor="let item of menuItems"
-      >
-        <div class="square-card">
-          <ion-card button>
-            <div class="card-content-wrapper">
-              <div class="image-wrapper">
-                <img [src]="item.image" />
-              </div>
-              <div class="text-wrapper">
-                {{ item.title }}
-              </div>
-            </div>
-          </ion-card>
-        </div>
-      </ion-col>
-    </ion-row> -->
   </ion-grid>
+
+  <!-- Bottom Buttons -->
   <ion-row class="ion-justify-content-between ion-padding-top">
-    <ion-col size="6">
-      <ion-button expand="block" color="medium" (click)="openBack()">Back</ion-button>
+    <ion-col size="4">
+      <ion-button expand="block" color="medium" (click)="openBack()">
+        Back
+      </ion-button>
     </ion-col>
-    <ion-col size="6">
-      <ion-button expand="block" color="danger" (click)="openCancel()">Cancel</ion-button>
+
+    <ion-col size="4">
+      <ion-button expand="block" color="danger" (click)="openCancel()">
+        Cancel
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="4">
+      <ion-button
+        expand="block"
+        color="success"
+        [disabled]="!hasSelection()"
+        (click)="openItemDialog()"
+      >
+        Next
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

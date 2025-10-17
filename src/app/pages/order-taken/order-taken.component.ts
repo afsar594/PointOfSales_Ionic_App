@@ -27,8 +27,7 @@ export class OrderTakenComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
-    private generalAPI: GeneralItemsService,
-
+    private generalAPI: GeneralItemsService
   ) {}
 
   ngOnInit() {
@@ -47,17 +46,16 @@ export class OrderTakenComponent implements OnInit {
     this.router.navigate(['/pages/additem'], { state: { data: item } });
   }
 
-   async openItemDialog(item: any) {
+  async openItemDialog() {
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
       componentProps: {
-        tableData: item,
-        itemStore: this.itemStore, 
+        itemStore: this.goNext(),
       },
       cssClass: 'custom-dialog',
-     });
+    });
 
-     modal.onDidDismiss().then((result) => {
+    modal.onDidDismiss().then((result) => {
       if (result.data) {
         this.itemStore = result.data; // ✅ keep all selected items
         console.log('✅ Updated itemStore:', this.itemStore);
@@ -66,12 +64,12 @@ export class OrderTakenComponent implements OnInit {
 
     await modal.present();
   }
-  openCancel(){
-     this.modalCtrl.dismiss();
+  openCancel() {
+    this.modalCtrl.dismiss();
   }
- openBack() {
-  this.router.navigateByUrl('/pages/dineintable');
-}
+  openBack() {
+    this.router.navigateByUrl('/pages/dineintable');
+  }
 
   menuItems = [
     { image: 'assets/img/food1.jpg', title: 'Maggi / Mee / Bihun / KueyTeow' },
@@ -139,5 +137,18 @@ export class OrderTakenComponent implements OnInit {
         }))
       )
     );
+  }
+  toggleSelection(item: any) {
+    item.selected = !item.selected;
+  }
+
+  hasSelection(): boolean {
+    return this.selectedCatItem.some((x) => x.selected);
+  }
+
+  goNext() {
+    const selectedItems = this.selectedCatItem.filter((x) => x.selected);
+    console.log('Selected items:', selectedItems);
+    return selectedItems;
   }
 }

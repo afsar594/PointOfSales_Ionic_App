@@ -13,76 +13,137 @@
 //   height: 60px;
 //   font-size: 14px;
 // }
- .square-card {
+//  .square-card {
+//   position: relative;
+//   width: 100%;
+//   padding-top: 90%;
+// }
+
+// .square-card ion-card {
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   right: 0;
+//   left: 0;
+//   padding: 0;
+//   margin: 0;
+//   display: flex;
+//   align-items: stretch;
+// }
+
+// .card-content-wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   height: 100%;
+// }
+
+// .image-wrapper {
+//   flex: 7;
+//   overflow: hidden;
+// }
+
+// .image-wrapper img {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+//   display: block;
+// }
+
+// .text-wrapper {
+//   flex: 3;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   padding: 6px;
+//   font-size: 13px;
+//   background-color: #f8f8f8; // Optional for visibility
+// }
+//  @media (min-width: 768px) {
+//   .text-wrapper {
+//   flex: 3;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   padding: 6px;
+//   font-size: 9px;
+//   background-color: #f8f8f8; // Optional for visibility
+// }
+//  .square-card {
+//   position: relative;
+//   width: 100%;
+//   padding-top: 100%; // Makes it square
+// }
+// }
+// .custom-dialog {
+//   --width: 60%;
+//   --max-width: 600px;
+//   --height: auto;
+//   --border-radius: 16px;
+//   --backdrop-opacity: 0.4; /* dim background */
+// }
+
+.item-grid {
+  margin-top: 10px;
+}
+
+.square-card {
   position: relative;
-  width: 100%;
-  padding-top: 90%;  
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.square-card ion-card {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: stretch;
+.item-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.card-content-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+.square-card:hover {
+  transform: translateY(-5px);
 }
 
 .image-wrapper {
-  flex: 7;
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
   overflow: hidden;
 }
 
 .image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .text-wrapper {
-  flex: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 6px;
-  font-size: 13px;
-  background-color: #f8f8f8; // Optional for visibility
-}
- @media (min-width: 768px) {
-  .text-wrapper {
-  flex: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 6px;
-  font-size: 9px;
-  background-color: #f8f8f8; // Optional for visibility
-}
- .square-card {
-  position: relative;
-  width: 100%;
-  padding-top: 100%; // Makes it square
-}
-}
-.custom-dialog {
-  --width: 60%;
-  --max-width: 600px;
-  --height: auto;
-  --border-radius: 16px;
-  --backdrop-opacity: 0.4; /* dim background */
+  padding: 10px 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
 }
 
- 
+/* Selected item styles */
+.square-card.selected .item-card {
+  border: 2px solid #3880ff;
+  box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
+}
+
+.selected-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 24px;
+  color: #3880ff;
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
