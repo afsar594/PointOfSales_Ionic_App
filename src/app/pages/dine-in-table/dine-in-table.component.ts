@@ -50,7 +50,7 @@ export class DineInTableComponent implements OnInit {
       component: OrderTakenComponent,
       cssClass: 'custom-width-modal',
       componentProps: {
-        tableData: table, // ✅ passing the table object
+        tableData: table,
       },
     });
     modal.present();

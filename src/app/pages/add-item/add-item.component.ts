@@ -15,11 +15,13 @@ export class AddItemComponent implements OnInit {
   @Input() itemStore: any[] = [];
   orderList: any[] = [];
   anyItemSelected: boolean = false;
+  totalAmount: number = 0;
   pax: any;
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {
-    this.orderList = this.itemStore.map((item) => ({
+    console.log('selected', this.itemStore);
+    this.orderList = this.itemStore?.map((item) => ({
       ...item,
       selected: false,
       qty: item.qty || 1,
@@ -42,7 +44,6 @@ export class AddItemComponent implements OnInit {
   updateItemTotal(item: any) {
     item.total = Number((item.unitPrice1 * item.qty).toFixed(2));
   }
-
   onSelectionChange() {
     this.anyItemSelected = this.orderList.some((item) => item.selected);
   }
@@ -57,10 +58,14 @@ export class AddItemComponent implements OnInit {
   }
 
   async order() {
+    console.log('this.orderList', this.orderList);
     const modal = await this.modalController.create({
       component: OrderListComponent,
-      
-      cssClass: 'custom-dialog',
+      cssClass: 'custom-width-modal',
+      componentProps: {
+        tableData: this.orderList,
+      },
     });
+    modal.present();
   }
 }

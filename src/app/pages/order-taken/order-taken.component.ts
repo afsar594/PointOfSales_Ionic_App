@@ -17,12 +17,13 @@ export class OrderTakenComponent implements OnInit {
   searchText: string = '';
   @Input() tableData: any;
 
-  // ✅ Store all selected items here
   itemStore: any[] = [];
-
   selectedCatItem: any[] = [];
+  filteredItems: any[] = [];
   GroupData: any[] = [];
   selectedCatGroup: any[] = [];
+
+  isLoading: boolean = true;
 
   constructor(
     private modalCtrl: ModalController,
@@ -31,15 +32,46 @@ export class OrderTakenComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('tableData', this.tableData);
+    this.isLoading = true;
     this.GetCategoryWithItems();
   }
 
-  onSearch() {
-    console.log('Searching for:', this.searchText);
+  GetCategoryWithItems() {
+    let req = {};
+    this.generalAPI.GetCategoryWithItems(req).subscribe((r: any) => {
+      this.GroupData = r.data;
+      this.selectedCatItem = this.extractItems(r.data);
+      this.filteredItems = [...this.selectedCatItem];
+      this.selectedCatGroup = this.extractGroups(r.data);
+      this.isLoading = false;
+    });
   }
 
-  closeForm() {
-    this.modalCtrl.dismiss();
+  onSearch(event: any) {
+    const query = event.target.value?.toLowerCase() || '';
+    if (!query) {
+      this.filteredItems = [...this.selectedCatItem];
+    } else {
+      this.filteredItems = this.selectedCatItem.filter((item) =>
+        item.itemName?.toLowerCase().includes(query)
+      );
+    }
+  }
+
+  toggleSelection(item: any) {
+    item.selected = !item.selected;
+  }
+
+  hasSelection(): boolean {
+    return this.selectedCatItem.some((x) => x.selected);
+  }
+
+  goNext() {
+    const selectedItems = this.selectedCatItem.filter((x) => x.selected);
+    // const mergeObject = { ...this.tableData, ...selectedItems };
+    console.log(selectedItems);
+    return selectedItems;
   }
 
   openItemDetail(item: any) {
@@ -49,44 +81,25 @@ export class OrderTakenComponent implements OnInit {
   async openItemDialog() {
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
-      componentProps: {
-        itemStore: this.goNext(),
-      },
+      componentProps: { itemStore: this.goNext() },
       cssClass: 'custom-dialog',
     });
 
     modal.onDidDismiss().then((result) => {
       if (result.data) {
-        this.itemStore = result.data; // ✅ keep all selected items
-        console.log('✅ Updated itemStore:', this.itemStore);
+        this.itemStore = result.data;
       }
     });
 
     await modal.present();
   }
+
   openCancel() {
     this.modalCtrl.dismiss();
   }
+
   openBack() {
     this.router.navigateByUrl('/pages/dineintable');
-  }
-
-  menuItems = [
-    { image: 'assets/img/food1.jpg', title: 'Maggi / Mee / Bihun / KueyTeow' },
-    { image: 'assets/img/food2.jpg', title: 'Roti / Tosai / Chapati' },
-    { image: 'assets/img/food8.jpg', title: 'Maggi / Mee / Bihun / KueyTeow' },
-    { image: 'assets/img/food4.jpg', title: 'Roti / Tosai / Chapati' },
-    { image: 'assets/img/food6.jpg', title: 'Maggi / Mee / Bihun / KueyTeow' },
-    { image: 'assets/img/food7.jpg', title: 'Roti / Tosai / Chapati' },
-  ];
-
-  GetCategoryWithItems() {
-    let req = {};
-    this.generalAPI.GetCategoryWithItems(req).subscribe((r: any) => {
-      this.GroupData = r.data;
-      this.selectedCatItem = this.extractItems(r.data);
-      this.selectedCatGroup = this.extractGroups(r.data);
-    });
   }
 
   extractGroups(reportData: any[]) {
@@ -137,18 +150,5 @@ export class OrderTakenComponent implements OnInit {
         }))
       )
     );
-  }
-  toggleSelection(item: any) {
-    item.selected = !item.selected;
-  }
-
-  hasSelection(): boolean {
-    return this.selectedCatItem.some((x) => x.selected);
-  }
-
-  goNext() {
-    const selectedItems = this.selectedCatItem.filter((x) => x.selected);
-    console.log('Selected items:', selectedItems);
-    return selectedItems;
   }
 }

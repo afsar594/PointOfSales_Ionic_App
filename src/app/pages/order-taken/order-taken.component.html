@@ -1,10 +1,16 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-searchbar [(ngModel)]="searchText" placeholder="Search items..." animated="true" showCancelButton="never"
-      style="--background: white; --border-radius: 6px; width: 230px"></ion-searchbar>
+    <ion-searchbar
+      [(ngModel)]="searchText"
+      placeholder="Search items..."
+      animated="true"
+      showCancelButton="never"
+      (ionInput)="onSearch($event)"
+      style="--background: white; --border-radius: 6px; width: 230px"
+    ></ion-searchbar>
 
     <ion-buttons slot="end">
-      <ion-button fill="solid" color="danger" (click)="closeForm()">
+      <ion-button fill="solid" color="danger" (click)="openCancel()">
         Close
         <ion-icon slot="end" name="close"></ion-icon>
       </ion-button>
@@ -13,45 +19,63 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-grid>
- <ion-row class="item-grid">
-  <ion-col
-    size="6"
-    size-sm="4"
-    size-md="3"
-    size-lg="3"
-    *ngFor="let item of selectedCatItem">
-    <div class="square-card" [class.selected]="item.selected" (click)="toggleSelection(item)">
-      <ion-card button class="item-card">
-        <div class="card-content-wrapper">
-          <div class="text-wrapper">
-            {{ item.itemName }}
-            <ion-icon
-              *ngIf="item.selected"
-              name="checkmark-circle"
-              class="selected-icon">
-            </ion-icon>
-          </div>
-        </div>
-      </ion-card>
-    </div>
-  </ion-col>
-</ion-row>
-
+  <ion-grid *ngIf="isLoading">
+    <ion-row>
+      <ion-col size="6" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8]">
+        <ion-card class="item-card">
+          <ion-skeleton-text
+            animated
+            style="width: 100%; height: 80px"
+          ></ion-skeleton-text>
+          <ion-card-content>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
-  <!-- Bottom Buttons -->
+  <ion-grid *ngIf="!isLoading">
+    <ion-row class="item-grid">
+      <ion-col
+        size="6"
+        size-sm="4"
+        size-md="3"
+        size-lg="3"
+        *ngFor="let item of filteredItems"
+      >
+        <div
+          class="square-card"
+          [class.selected]="item.selected"
+          (click)="toggleSelection(item)"
+        >
+          <ion-card button class="item-card">
+            <div class="card-content-wrapper">
+              <div class="text-wrapper">
+                {{ item.itemName }}
+                <ion-icon
+                  *ngIf="item.selected"
+                  name="checkmark-circle"
+                  class="selected-icon"
+                ></ion-icon>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-row class="ion-justify-content-between ion-padding-top">
     <ion-col size="4">
-      <ion-button expand="block" color="medium" (click)="openBack()">
-        Back
-      </ion-button>
+      <ion-button expand="block" color="medium" (click)="openBack()"
+        >Back</ion-button
+      >
     </ion-col>
 
     <ion-col size="4">
-      <ion-button expand="block" color="danger" (click)="openCancel()">
-        Cancel
-      </ion-button>
+      <ion-button expand="block" color="danger" (click)="openCancel()"
+        >Cancel</ion-button
+      >
     </ion-col>
 
     <ion-col size="4">
