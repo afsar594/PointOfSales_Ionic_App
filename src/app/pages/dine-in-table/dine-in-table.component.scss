@@ -69,3 +69,21 @@ ion-toolbar {
 // .sidebar-menu {
 //   width: 220px;
 // }
+ 
+.gradient-btn {
+   width: 105px;     
+  height: 90px;  
+  --background: linear-gradient(135deg, #007bff, #00bcd4);
+  --color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 6px 0  rgb(2, 227, 2);
+  transition: all 0.2s ease-in-out;
+  
+}
+
+.gradient-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+ 
