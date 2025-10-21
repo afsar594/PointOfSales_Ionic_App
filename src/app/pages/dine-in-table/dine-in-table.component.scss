@@ -87,3 +87,16 @@ ion-toolbar {
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
 }
  
+  @media (max-width: 320px) {
+ .gradient-btn {
+   width: 70px;     
+  height: 90px;  
+  --background: linear-gradient(135deg, #007bff, #00bcd4);
+  --color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 6px 0  rgb(2, 227, 2);
+  transition: all 0.2s ease-in-out;
+  
+}
+}

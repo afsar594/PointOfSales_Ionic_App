@@ -5,6 +5,7 @@ import { OrderTakenComponent } from './order-taken/order-taken.component';
 import { AddItemComponent } from './add-item/add-item.component';
 import { AddRemarksComponent } from './add-remarks/add-remarks.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { GroupItemComponent } from './group-item/group-item.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'orderlist',
     component: OrderListComponent
+  },
+   {
+    path: 'group-item',
+    component:  GroupItemComponent
   },
 ];
 
