@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { OrderListComponent } from '../order-list/order-list.component';
+import { AddRemarksComponent } from '../add-remarks/add-remarks.component';
 
 @Component({
   selector: 'app-add-item',
@@ -17,7 +18,7 @@ export class AddItemComponent implements OnInit {
   anyItemSelected: boolean = false;
   totalAmount: number = 0;
   pax: any;
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
     this.orderList = this.itemStore?.selectedItems?.map(
@@ -68,4 +69,20 @@ export class AddItemComponent implements OnInit {
     });
     modal.present();
   }
+  isMenuOpen = false;
+
+  // openMenu(ev: any) {
+  //   this.isMenuOpen = true;
+  // }
+async openMenu() {
+  const modal = await this.modalController.create({
+    component:  AddRemarksComponent,
+    cssClass: 'custom-width-modal',
+    breakpoints: [0, 0.5, 0.9],
+    initialBreakpoint: 0.5, // half screen height
+  });
+
+  await modal.present();
+}
+
 }

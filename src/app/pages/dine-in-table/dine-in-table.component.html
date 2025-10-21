@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="success">
+  <ion-toolbar  class="topbar">
     <ion-title class="ion-text-center head">Spice Restaurants</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -31,7 +31,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content class="ion-padding">
   <ion-grid>
     <ion-row class="ion-justify-content-center ion-margin-bottom">
@@ -40,7 +40,7 @@
       </ion-col>
     </ion-row>
     <ion-row class="table-grid">
-      <ion-col *ngFor="let table of Alltables" size="4" size-sm="3" size-md="2" size-lg="2" size-xl="1"
+      <ion-col *ngFor="let table of Alltables" size="4" size-sm="6" size-md="2" size-lg="2" size-xl="1"
         class="ion-text-center">
         <ion-button expand="block" class="gradient-btn" (click)="openModal(table)">
           {{ table.name }}
