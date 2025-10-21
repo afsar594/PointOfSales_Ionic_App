@@ -113,7 +113,9 @@
   </div>
 
   <ion-item>
-    <ion-label>TABLE: <strong>T-21</strong></ion-label>
+    <ion-label
+      ><strong>{{ itemStore.name }}</strong></ion-label
+    >
     <ion-label position="end">PAX:</ion-label>
     <ion-select interface="popover" [(ngModel)]="pax" placeholder="1">
       <ion-select-option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">{{

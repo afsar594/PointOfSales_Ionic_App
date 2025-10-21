@@ -12,7 +12,7 @@ import { OrderListComponent } from '../order-list/order-list.component';
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class AddItemComponent implements OnInit {
-  @Input() itemStore: any[] = [];
+  @Input() itemStore: any;
   orderList: any[] = [];
   anyItemSelected: boolean = false;
   totalAmount: number = 0;
@@ -20,13 +20,14 @@ export class AddItemComponent implements OnInit {
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {
-    console.log('selected', this.itemStore);
-    this.orderList = this.itemStore?.map((item) => ({
-      ...item,
-      selected: false,
-      qty: item.qty || 1,
-      total: item.unitPrice1 || 0,
-    }));
+    this.orderList = this.itemStore?.selectedItems?.map(
+      (item: { qty: any; unitPrice1: any }) => ({
+        ...item,
+        selected: false,
+        qty: item.qty || 1,
+        total: item.unitPrice1 || 0,
+      })
+    );
   }
 
   increaseQty(item: any) {
@@ -58,7 +59,6 @@ export class AddItemComponent implements OnInit {
   }
 
   async order() {
-    console.log('this.orderList', this.orderList);
     const modal = await this.modalController.create({
       component: OrderListComponent,
       cssClass: 'custom-width-modal',

@@ -69,9 +69,12 @@ export class OrderTakenComponent implements OnInit {
 
   goNext() {
     const selectedItems = this.selectedCatItem.filter((x) => x.selected);
-    // const mergeObject = { ...this.tableData, ...selectedItems };
-    console.log(selectedItems);
-    return selectedItems;
+    const mergeObject = {
+      ...this.tableData,
+      selectedItems: selectedItems,
+    };
+    console.log(mergeObject);
+    return mergeObject;
   }
 
   openItemDetail(item: any) {
