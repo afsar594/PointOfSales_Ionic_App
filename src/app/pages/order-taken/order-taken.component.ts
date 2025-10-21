@@ -17,7 +17,7 @@ export class OrderTakenComponent implements OnInit {
   searchText: string = '';
   @Input() tableData: any;
 
-  itemStore: any[] = [];
+  itemStore: any;
   selectedCatItem: any[] = [];
   filteredItems: any[] = [];
   GroupData: any[] = [];
@@ -32,9 +32,12 @@ export class OrderTakenComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('tableData', this.tableData);
     this.isLoading = true;
-    this.GetCategoryWithItems();
+    this.selectedCatItem = this.itemStore?.items;
+    this.filteredItems = [...this.selectedCatItem];
+    this.isLoading = false;
+
+    // this.GetCategoryWithItems();
   }
 
   GetCategoryWithItems() {

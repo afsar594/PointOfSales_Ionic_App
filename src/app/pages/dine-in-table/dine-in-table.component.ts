@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { OrderTakenComponent } from '../order-taken/order-taken.component';
 import { ModalController } from '@ionic/angular';
 import { TableService } from 'src/app/services/table.service';
+import { GroupItemComponent } from '../group-item/group-item.component';
 
 @Component({
   selector: 'app-dine-in-table',
@@ -47,7 +48,7 @@ export class DineInTableComponent implements OnInit {
 
   async openModal(table: any) {
     const modal = await this.modalController.create({
-      component: OrderTakenComponent,
+      component: GroupItemComponent,
       cssClass: 'custom-width-modal',
       componentProps: {
         tableData: table,
