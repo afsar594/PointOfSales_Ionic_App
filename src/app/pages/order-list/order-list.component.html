@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar  class="topbar">
+  <ion-toolbar class="topbar">
     <ion-title class="center-text">Amira Restaurant</ion-title>
     <ion-buttons slot="end">
       <ion-button fill="solid" color="danger" (click)="closeForm()">
@@ -79,8 +79,9 @@
       </ion-button>
     </ion-col>
     <ion-col slot="end">
-      <ion-button color="success">
+      <ion-button color="success" (click)="save()">
         <ion-icon name="arrow-down"></ion-icon>
+        <ion-spinner *ngIf="Isloading"></ion-spinner>
         ORDER
       </ion-button>
     </ion-col>

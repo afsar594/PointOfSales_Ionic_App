@@ -14,11 +14,11 @@ import { AddRemarksComponent } from '../add-remarks/add-remarks.component';
 })
 export class AddItemComponent implements OnInit {
   @Input() itemStore: any;
-  orderList: any[] = [];
+  orderList: any;
   anyItemSelected: boolean = false;
   totalAmount: number = 0;
   pax: any;
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {
     this.orderList = this.itemStore?.selectedItems?.map(
@@ -47,11 +47,15 @@ export class AddItemComponent implements OnInit {
     item.total = Number((item.unitPrice1 * item.qty).toFixed(2));
   }
   onSelectionChange() {
-    this.anyItemSelected = this.orderList.some((item) => item.selected);
+    this.anyItemSelected = this.orderList.some(
+      (item: { selected: any }) => item.selected
+    );
   }
 
   deleteSelected() {
-    this.orderList = this.orderList.filter((item) => !item.selected);
+    this.orderList = this.orderList.filter(
+      (item: { selected: any }) => !item.selected
+    );
     this.anyItemSelected = false;
   }
 
@@ -74,15 +78,28 @@ export class AddItemComponent implements OnInit {
   // openMenu(ev: any) {
   //   this.isMenuOpen = true;
   // }
-async openMenu() {
-  const modal = await this.modalController.create({
-    component:  AddRemarksComponent,
-    cssClass: 'custom-width-modal',
-    breakpoints: [0, 0.5, 0.9],
-    initialBreakpoint: 0.5, // half screen height
-  });
+  async openMenu(selectedItem: any) {
+    const modal = await this.modalController.create({
+      component: AddRemarksComponent,
+      cssClass: 'custom-width-modal',
+      breakpoints: [0, 0.5, 0.9],
+      initialBreakpoint: 0.5,
+    });
 
-  await modal.present();
-}
+    await modal.present();
 
+    const { data } = await modal.onWillDismiss();
+
+    if (data) {
+      const index = this.orderList.findIndex(
+        (item: { id: any }) => item.id === selectedItem.id
+      );
+      if (index !== -1) {
+        this.orderList[index] = {
+          ...this.orderList[index],
+          itemNotes: data,
+        };
+      }
+    }
+  }
 }
