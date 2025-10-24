@@ -18,12 +18,13 @@ export class OrderListComponent implements OnInit {
 
   pax = 1;
   orderList: any[] = [];
-  GrossAmount: number = 0;
-  VatAmount: number = 0;
-  Discount: number = 0;
-  NetAmount: number = 0;
+  GrossAmount = 0;
+  VatAmount = 0;
+  Discount = 0;
+  NetAmount = 0;
+  TotalAmount = 0;
   Isloading = false;
-  order: any = {}; // ✅ Initialize order object
+  order: any = {};
 
   constructor(
     private modalCtrl: ModalController,
@@ -33,8 +34,7 @@ export class OrderListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('Incoming data:', this.tableData);
-
+    console.log('bb', this.tableData);
     if (Array.isArray(this.tableData)) {
       this.orderList = this.tableData;
     } else if (this.tableData) {
@@ -60,7 +60,8 @@ export class OrderListComponent implements OnInit {
     const vat = this.VatAmount || 0;
     const discount = this.Discount || 0;
 
-    this.NetAmount = Number((gross + vat - discount).toFixed(2));
+    this.NetAmount = Number((gross - discount).toFixed(2));
+    this.TotalAmount = Number((this.NetAmount + vat).toFixed(2));
   }
 
   closeForm() {
@@ -71,46 +72,145 @@ export class OrderListComponent implements OnInit {
     this.router.navigate(['ordertaken']);
   }
 
-  // ✅ Corrected save() method
+  // ✅ Final Corrected save() method
   save() {
     if (!this.orderList || this.orderList.length === 0) {
+      // this.messageService.show('No items to save.', 'warning');
       return;
     }
 
-    // ✅ Prepare order object for API
+    // ✅ Build settlement details (default structure)
+    const settlementDetails = [
+      {
+        id: 0,
+        trans_code: 'STOT',
+        trans_Description: 'SUB TOTAL',
+        taxable: false,
+        show_in_inv: true,
+        main_Group: 'INCOME',
+        amount: this.GrossAmount,
+        transactionCodeMasterId: 170,
+        transcode: 'STOT',
+        showInGrid: true,
+      },
+      {
+        id: 0,
+        trans_code: 'DIS',
+        trans_Description: 'DISCOUNT',
+        taxable: true,
+        show_in_inv: true,
+        main_Group: 'INCOME',
+        amount: this.Discount,
+        transactionCodeMasterId: 37,
+        transcode: 'DIS',
+        showInGrid: this.Discount > 0,
+      },
+      {
+        id: 0,
+        trans_code: 'BIL',
+        trans_Description: 'BILL AMOUNT',
+        taxable: false,
+        show_in_inv: true,
+        main_Group: 'INCOME',
+        amount: this.NetAmount,
+        transactionCodeMasterId: 18,
+        transcode: 'BIL',
+        showInGrid: true,
+      },
+      {
+        id: 0,
+        trans_code: 'VAT',
+        trans_Description: 'VAT',
+        taxable: false,
+        show_in_inv: true,
+        main_Group: 'INCOME',
+        amount: this.VatAmount,
+        transactionCodeMasterId: 104,
+        transcode: 'VAT',
+        showInGrid: this.VatAmount > 0,
+      },
+      {
+        id: 0,
+        trans_code: 'NET',
+        trans_Description: 'NET AMOUNT',
+        taxable: false,
+        show_in_inv: true,
+        main_Group: 'INCOME',
+        amount: this.TotalAmount,
+        transactionCodeMasterId: 101,
+        transcode: 'NET',
+        showInGrid: true,
+      },
+    ];
+
     this.order = {
-      orderDetails: this.orderList,
+      kotNo: '',
+      tableId: this.tableData?.tableId ?? null,
       orderTypeId: 1,
       orderType: 'Dine-In',
-      totalAmount: this.GrossAmount,
-      vatAmount: this.VatAmount,
-      discount: this.Discount,
+      orderNo: null,
+      area: this.tableData?.area ?? '',
+      tableName: this.tableData?.tableName ?? '',
+      //  settlementDetails,
+      orderDetails: this.orderList.map((item: any) => ({
+        itemMasterId: item.itemMasterId,
+        itemName: item.itemName,
+        qty: item.qty,
+        rate: item.rate,
+        total: item.total,
+        itemNotes: item.itemNotes || [],
+      })),
       netAmount: this.NetAmount,
-      orderBillDate: new Date().toISOString(),
-      orderTime: new Date().toISOString(),
-      isOrderCancel: false,
-      isInvoicePrinted: false,
-      settlementId: null,
+      vatAmt: this.VatAmount,
+      totalAmount: this.TotalAmount,
+      orderDateTime: new Date().toISOString(),
       waiterId: null,
       driverId: null,
       roomId: null,
+      orderBillDate: new Date().toISOString(),
+      isOrderCancel: false,
+      isInvoicePrinted: false,
+      orderIdByOrderDate: null,
+      settlementId: null,
+      settlementDateTime: null,
+      settlementBillDate: null,
       paymentOptionId: null,
       creditCard: '',
+      staffAccount: null,
+      cashPaid: 0,
+      remarks: '',
+      cityLedgerId: null,
+      isPosted: false,
+      balance: 0,
+      guestNo: '',
+      addedTable: '',
+      charged: 0,
+      covers: this.pax,
+      orderComent: null,
+      orderTime: new Date().toISOString(),
+      changeBal: 0,
+      totalTax: 0,
+      alterUser: '',
+      alterDateTime: new Date().toISOString(),
       shiftId: null,
       orderTypeOption: '',
+      cancelUserId: null,
+      orderDlvryStatus: false,
       status: 0,
       cgst: 0,
       igst: 0,
       svc: 0,
       munFees: 0,
-      pax: this.pax,
+      statusDelivery: 0,
     };
+
+    console.log('🧾 Final Payload:', this.order);
     this.Isloading = true;
     this.orderService.createOrder(this.order).subscribe({
-      next: (response: { isSuccess: any }) => {
+      next: (response: { isSuccess: boolean }) => {
+        this.Isloading = false;
         if (response.isSuccess) {
           this.messageService.show('Order saved successfully', 'success');
-          this.Isloading = false;
           if (this.order.orderType === 'Dine-In') {
             this.router.navigate(['/pages/dineintable']);
             this.modalCtrl.dismiss();
@@ -119,12 +219,10 @@ export class OrderListComponent implements OnInit {
           }
         } else {
           this.messageService.show('Failed to save order.', 'danger');
-          this.Isloading = false;
         }
       },
-      error: (err: any) => {
+      error: () => {
         this.Isloading = false;
-
         this.messageService.show('Server error while saving order.', 'danger');
       },
     });

@@ -74,11 +74,15 @@ export class DineInTableComponent implements OnInit {
       customerName: '',
       tableStatus: '',
     };
+
     this.tableapi.getList(payload).subscribe((res: any) => {
-      this.Alltables = res.data.flatMap((area: { areaTables: any[] }) =>
-        area.areaTables.map((table) => ({
+      this.Alltables = res.data.flatMap((area: any) =>
+        area.areaTables.map((table: any) => ({
           name: table.tableName,
           Id: table.tableId,
+          backColor: table.tableBackColor,
+          foreColor: table.tableForeColor,
+          orderNo: table.tableOrders?.[0]?.orderNo || '', // ✅ Show Order No if exists
         }))
       );
     });

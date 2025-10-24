@@ -32,6 +32,7 @@ export class OrderTakenComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('itemstore coming', this.itemStore);
     this.isLoading = true;
     this.selectedCatItem = this.itemStore?.items;
     this.filteredItems = [...this.selectedCatItem];
@@ -72,10 +73,13 @@ export class OrderTakenComponent implements OnInit {
 
   goNext() {
     const selectedItems = this.selectedCatItem.filter((x) => x.selected);
+
     const mergeObject = {
       ...this.tableData,
-      selectedItems: selectedItems,
+      selectedItems,
+      tableId: this.itemStore.tableId,
     };
+
     console.log(mergeObject);
     return mergeObject;
   }

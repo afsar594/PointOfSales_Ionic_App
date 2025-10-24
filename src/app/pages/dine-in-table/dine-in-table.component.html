@@ -1,10 +1,9 @@
 <ion-header>
-  <ion-toolbar  class="topbar">
+  <ion-toolbar class="topbar">
     <ion-title class="ion-text-center head">Spice Restaurants</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-header>
-
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
@@ -31,7 +30,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
- 
+
 <ion-content class="ion-padding">
   <ion-grid>
     <ion-row class="ion-justify-content-center ion-margin-bottom">
@@ -39,14 +38,30 @@
         <h2 class="dinein">Dine-in Table</h2>
       </ion-col>
     </ion-row>
+
     <ion-row class="table-grid">
-      <ion-col *ngFor="let table of Alltables" size="4" size-sm="6" size-md="2" size-lg="2" size-xl="1"
-        class="ion-text-center">
-        <ion-button expand="block" class="gradient-btn" (click)="openModal(table)">
+      <ion-col
+        *ngFor="let table of Alltables"
+        size="4"
+        size-sm="6"
+        size-md="2"
+        size-lg="2"
+        size-xl="1"
+        class="ion-text-center"
+      >
+        <ion-button
+          expand="block"
+          class="gradient-btn"
+          (click)="openModal(table)"
+          [ngStyle]="{
+            'background-color': table.backColor,
+            color: table.foreColor
+          }"
+        >
           {{ table.name }}
+          {{ table.orderNo }}
         </ion-button>
       </ion-col>
     </ion-row>
-
   </ion-grid>
 </ion-content>

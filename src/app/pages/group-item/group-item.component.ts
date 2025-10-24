@@ -30,6 +30,7 @@ export class GroupItemComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
+    console.log('comming ', this.tableData);
     this.GetCategoryWithItems();
   }
 
@@ -57,12 +58,15 @@ export class GroupItemComponent implements OnInit {
   }
 
   async openItemDialog(item: any) {
+    // ✅ Assign tableId before opening modal
+    item.tableId = this.tableData.Id;
     const modal = await this.modalCtrl.create({
       component: OrderTakenComponent,
       componentProps: { itemStore: item },
       cssClass: 'custom-dialog',
     });
 
+    // ✅ Handle data returned from modal
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         this.itemStore = result.data;

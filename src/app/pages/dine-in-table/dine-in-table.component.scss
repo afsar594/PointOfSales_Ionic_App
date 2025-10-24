@@ -1,7 +1,6 @@
 ion-button {
   height: 40px;
   font-size: 18px;
-  
 }
 ion-toolbar {
   --padding-start: 8px;
@@ -9,29 +8,27 @@ ion-toolbar {
 }
 
 .head {
-    font-size: 32px;
-    text-align: center !important;
-  font-family: 'Pacifico', cursive;
+  font-size: 32px;
+  text-align: center !important;
+  font-family: "Pacifico", cursive;
 }
- 
+
 .dinein {
-    font-size: 32px;
-    text-align: center !important;
-    font-weight: bold;
- }
- 
+  font-size: 32px;
+  text-align: center !important;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 768px) {
-  
-.head {
+  .head {
     font-size: 20px;
-     font-style: italic;
-     font-weight: bold;
+    font-style: italic;
+    font-weight: bold;
+  }
 }
- 
-}
- .custom-width-modal .modal-wrapper {
-  width: 90vw;          
-  max-width: 900px;     
+.custom-width-modal .modal-wrapper {
+  width: 90vw;
+  max-width: 900px;
   height: auto;
   max-height: 90vh;
   background: white;
@@ -41,7 +38,7 @@ ion-toolbar {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
- @media (max-width: 768px) {
+@media (max-width: 768px) {
   .custom-width-modal .modal-wrapper {
     width: 95vw;
     height: 100vh;
@@ -69,34 +66,32 @@ ion-toolbar {
 // .sidebar-menu {
 //   width: 220px;
 // }
- 
+
 .gradient-btn {
-   width: 105px;     
-  height: 90px;  
+  width: 105px;
+  height: 90px;
   --background: linear-gradient(135deg, #007bff, #00bcd4);
   --color: #fff;
   font-weight: 600;
   border-radius: 12px;
-  box-shadow: 0 6px 0  rgb(2, 227, 2);
+  box-shadow: 0 6px 0 rgb(2, 227, 2);
   transition: all 0.2s ease-in-out;
-  
 }
 
 .gradient-btn:active {
   transform: translateY(3px);
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
 }
- 
-  @media (max-width: 320px) {
- .gradient-btn {
-   width: 70px;     
-  height: 90px;  
-  --background: linear-gradient(135deg, #007bff, #00bcd4);
-  --color: #fff;
-  font-weight: 600;
-  border-radius: 12px;
-  box-shadow: 0 6px 0  rgb(2, 227, 2);
-  transition: all 0.2s ease-in-out;
-  
-}
+
+@media (max-width: 320px) {
+  .gradient-btn {
+    width: 70px;
+    height: 90px;
+    --background: linear-gradient(135deg, #007bff, #00bcd4);
+    --color: #fff;
+    font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 6px 0 rgb(2, 227, 2);
+    transition: all 0.2s ease-in-out;
+  }
 }

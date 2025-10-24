@@ -21,6 +21,7 @@ export class AddItemComponent implements OnInit {
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {
+    console.log('aaa', this.itemStore);
     this.orderList = this.itemStore?.selectedItems?.map(
       (item: { qty: any; unitPrice1: any }) => ({
         ...item,
@@ -64,6 +65,7 @@ export class AddItemComponent implements OnInit {
   }
 
   async order() {
+    this.orderList.tableId = this.itemStore.tableId;
     const modal = await this.modalController.create({
       component: OrderListComponent,
       cssClass: 'custom-width-modal',
