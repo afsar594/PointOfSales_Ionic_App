@@ -99,6 +99,7 @@ export class OrderTakenComponent implements OnInit {
       if (result.data) {
         this.itemStore = result.data;
       }
+      this.openCancel();
     });
 
     await modal.present();
