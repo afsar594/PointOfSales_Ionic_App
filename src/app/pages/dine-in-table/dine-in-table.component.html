@@ -38,13 +38,46 @@
         <h2 class="dinein">Dine-in Table</h2>
       </ion-col>
     </ion-row>
+<ion-row class="table-grid">
+  <ion-col
+    *ngFor="let table of Alltables"
+    size="6"
+    size-sm="4"
+    size-md="4"
+    size-lg="2"
+    size-xl="1"
+    class="ion-text-center"
+  >
+    <div class="table-button-wrapper">
+      <ion-button
+        expand="block"
+        class="gradient-btn"
+        (click)="openModal(table)"
+        [ngStyle]="{
+          'background-color': table.backColor,
+          color: table.foreColor
+        }"
+      >
+        {{ table.name }}
+        {{ table.orderNo }}
+      </ion-button>
 
-    <ion-row class="table-grid">
+      <!-- Ellipsis icon (top right) -->
+      <ion-icon
+        name="ellipsis-vertical"
+        class="ellipsis-icon"
+        (click)="presentPopover($event, table)"
+      ></ion-icon>
+    </div>
+  </ion-col>
+</ion-row>
+
+    <!-- <ion-row class="table-grid">
       <ion-col
         *ngFor="let table of Alltables"
-        size="4"
-        size-sm="6"
-        size-md="2"
+        size="6"
+        size-sm="4"
+        size-md="4"
         size-lg="2"
         size-xl="1"
         class="ion-text-center"
@@ -62,6 +95,6 @@
           {{ table.orderNo }}
         </ion-button>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
   </ion-grid>
 </ion-content>
