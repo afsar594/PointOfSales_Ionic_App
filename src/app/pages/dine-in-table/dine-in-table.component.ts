@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { OrderTakenComponent } from '../order-taken/order-taken.component';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TableService } from 'src/app/services/table.service';
 import { GroupItemComponent } from '../group-item/group-item.component';
 
@@ -55,12 +53,14 @@ export class DineInTableComponent implements OnInit {
       },
     });
 
-    // ✅ Handle data returned from modal
     modal.onDidDismiss().then((result) => {
-      this.closeForm();
-      this.getAllTable();
+      // child may request reload (after finishing order) or nothing
+      if (result?.data === 'reload') {
+        this.getAllTable();
+      }
     });
-    modal.present();
+
+    await modal.present();
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class DineInTableComponent implements OnInit {
   }
 
   getAllTable() {
-    let payload = {
+    const payload = {
       areaId: null,
       areaName: '',
       tableId: null,
@@ -88,7 +88,7 @@ export class DineInTableComponent implements OnInit {
           Id: table.tableId,
           backColor: table.tableBackColor,
           foreColor: table.tableForeColor,
-          orderNo: table.tableOrders?.[0]?.orderNo || '', // ✅ Show Order No if exists
+          orderNo: table.tableOrders?.[0]?.orderNo || '',
         }))
       );
     });

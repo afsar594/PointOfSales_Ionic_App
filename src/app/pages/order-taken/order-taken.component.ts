@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AddItemComponent } from '../add-item/add-item.component';
-import { GeneralItemsService } from 'src/app/services/general-items.service';
 
 @Component({
   selector: 'app-order-taken',
@@ -14,152 +13,120 @@ import { GeneralItemsService } from 'src/app/services/general-items.service';
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class OrderTakenComponent implements OnInit {
-  searchText: string = '';
-  @Input() tableData: any;
+  @Input() itemStore: any;
+  @Input() groupData: any;
 
-  itemStore: any;
   selectedCatItem: any[] = [];
   filteredItems: any[] = [];
-  GroupData: any[] = [];
-  selectedCatGroup: any[] = [];
-
   isLoading: boolean = true;
+  searchText: string = '';
+  mergedCount: number = 0;
 
-  constructor(
-    private modalCtrl: ModalController,
-    private router: Router,
-    private generalAPI: GeneralItemsService
-  ) {}
+  constructor(private modalCtrl: ModalController, private router: Router) {}
 
   ngOnInit() {
-    console.log('itemstore coming', this.itemStore);
-    this.isLoading = true;
-    this.selectedCatItem = this.itemStore?.items;
+    const storedItems = JSON.parse(localStorage.getItem('orderItems') || '[]');
+    const items = this.groupData?.items || [];
+
+    // ✅ Sync LocalStorage selection
+    this.selectedCatItem = items.map((it: { itemId: any; unitPrice1: any }) => {
+      const exist = storedItems.find((x: any) => x.itemId === it.itemId);
+      return {
+        ...it,
+        selected: !!exist,
+        qty: exist?.qty || 1,
+        unitPrice1: exist?.unitPrice1 ?? it.unitPrice1,
+        total: Number(
+          ((exist?.unitPrice1 ?? it.unitPrice1) * (exist?.qty || 1)).toFixed(2)
+        ),
+        itemNotes: exist?.itemNotes ? [...exist.itemNotes] : [],
+      };
+    });
+
     this.filteredItems = [...this.selectedCatItem];
     this.isLoading = false;
-
-    // this.GetCategoryWithItems();
-  }
-
-  GetCategoryWithItems() {
-    let req = {};
-    this.generalAPI.GetCategoryWithItems(req).subscribe((r: any) => {
-      this.GroupData = r.data;
-      this.selectedCatItem = this.extractItems(r.data);
-      this.filteredItems = [...this.selectedCatItem];
-      this.selectedCatGroup = this.extractGroups(r.data);
-      this.isLoading = false;
-    });
-  }
-
-  onSearch(event: any) {
-    const query = event.target.value?.toLowerCase() || '';
-    if (!query) {
-      this.filteredItems = [...this.selectedCatItem];
-    } else {
-      this.filteredItems = this.selectedCatItem.filter((item) =>
-        item.itemName?.toLowerCase().includes(query)
-      );
-    }
+    this.updateMergedCount();
   }
 
   toggleSelection(item: any) {
     item.selected = !item.selected;
+    this.updateMergedCount();
   }
 
   hasSelection(): boolean {
     return this.selectedCatItem.some((x) => x.selected);
   }
 
-  goNext() {
-    const selectedItems = this.selectedCatItem.filter((x) => x.selected);
-
-    const mergeObject = {
-      ...this.tableData,
-      selectedItems,
-      tableId: this.itemStore.tableId,
-    };
-
-    console.log(mergeObject);
-    return mergeObject;
+  onSearch(event: any) {
+    const value = event.target.value.toLowerCase();
+    this.filteredItems = this.selectedCatItem.filter((item: any) =>
+      item.itemName.toLowerCase().includes(value)
+    );
   }
 
-  openItemDetail(item: any) {
-    this.router.navigate(['/pages/additem'], { state: { data: item } });
+  updateMergedCount() {
+    const saved = JSON.parse(localStorage.getItem('orderItems') || '[]');
+    const selectedNow = this.selectedCatItem.filter((x) => x.selected);
+    const merged = [
+      ...new Map([...saved, ...selectedNow].map((v) => [v.itemId, v])).values(),
+    ];
+    this.mergedCount = merged.length;
+  }
+
+  private saveToLocalStorage() {
+    const selectedNow = this.selectedCatItem
+      .filter((x) => x.selected)
+      .map((x) => ({
+        itemId: x.itemId,
+        itemName: x.itemName,
+        qty: x.qty,
+        unitPrice1: x.unitPrice1,
+        total: Number((x.qty * x.unitPrice1).toFixed(2)),
+        itemNotes: x.itemNotes || [],
+      }));
+
+    const saved = JSON.parse(localStorage.getItem('orderItems') || '[]');
+
+    const merged = [
+      ...new Map([...saved, ...selectedNow].map((v) => [v.itemId, v])).values(),
+    ];
+
+    localStorage.setItem('orderItems', JSON.stringify(merged));
+
+    this.updateMergedCount();
+    return merged;
   }
 
   async openItemDialog() {
+    const merged = this.saveToLocalStorage();
+
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
-      componentProps: { itemStore: this.goNext() },
-      cssClass: 'custom-dialog',
+      componentProps: {
+        itemStore: { existingItems: merged, tableId: this.itemStore.tableId },
+      },
     });
 
-    modal.onDidDismiss().then((result) => {
-      if (result.data) {
-        this.itemStore = result.data;
+    modal.onDidDismiss().then((res) => {
+      if (res?.data?.existingItems) {
+        localStorage.setItem(
+          'orderItems',
+          JSON.stringify(res.data.existingItems)
+        );
+        this.modalCtrl.dismiss({ existingItems: res.data.existingItems });
       }
-      this.openCancel();
     });
 
     await modal.present();
   }
 
-  openCancel() {
-    this.modalCtrl.dismiss();
-  }
-
   openBack() {
-    this.router.navigateByUrl('/pages/dineintable');
+    this.saveToLocalStorage();
+    this.modalCtrl.dismiss({ back: true });
   }
 
-  extractGroups(reportData: any[]) {
-    return (reportData || [])?.flatMap((category: any) =>
-      (category.groupCategories || []).map((group: any) => ({
-        groupId: group.groupId,
-        groupName: group.groupName,
-        items: (group.categoryItems || []).map((item: any) => ({
-          batchCode: item.batchCode,
-          itemId: item.itemId,
-          itemName: item.itemName,
-          itemSize: item.itemSize,
-          itemType: item.itemType,
-          itemUnits: item.itemUnits || [],
-          itemWiseDiscount: item.itemWiseDiscount,
-          printerName: item.printerName,
-          qty: item.qty,
-          rate: item.rate,
-          relativeNo: item.relativeNo,
-          total: item.total,
-          unitPrice: item.unitPrice,
-          unitPrice1: item.unitPrice1,
-          unitPrice2: item.unitPrice2,
-        })),
-      }))
-    );
-  }
-
-  extractItems(reportData: any[]) {
-    return (reportData || [])?.flatMap((category: any) =>
-      (category.groupCategories || []).flatMap((group: any) =>
-        (group.categoryItems || []).map((item: any) => ({
-          batchCode: item.batchCode,
-          itemId: item.itemId,
-          itemName: item.itemName,
-          itemSize: item.itemSize,
-          itemType: item.itemType,
-          itemUnits: item.itemUnits || [],
-          itemWiseDiscount: item.itemWiseDiscount,
-          printerName: item.printerName,
-          qty: item.qty,
-          rate: item.rate,
-          relativeNo: item.relativeNo,
-          total: item.total,
-          unitPrice: item.unitPrice,
-          unitPrice1: item.unitPrice1,
-          unitPrice2: item.unitPrice2,
-        }))
-      )
-    );
+  openCancel() {
+    this.saveToLocalStorage();
+    this.modalCtrl.dismiss();
   }
 }
