@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { GeneralItemsService } from 'src/app/services/general-items.service';
 import { OrderTakenComponent } from '../order-taken/order-taken.component';
@@ -14,100 +13,100 @@ import { OrderTakenComponent } from '../order-taken/order-taken.component';
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class GroupItemComponent implements OnInit {
-  searchText: string = '';
   @Input() tableData: any;
 
-  itemStore: any[] = [];
+  searchText: string = '';
+  isLoading: boolean = true;
+
   GroupData: any[] = [];
   selectedCatGroup: any[] = [];
-  isLoading: boolean = true;
+
+  itemStore: any = {
+    existingItems: [],
+    tableId: null,
+  };
 
   constructor(
     private modalCtrl: ModalController,
-    private router: Router,
     private generalAPI: GeneralItemsService
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    console.log('comming ', this.tableData);
+
+    const savedItems = JSON.parse(localStorage.getItem('orderItems') || '[]');
+    const savedTableId = localStorage.getItem('orderTableId');
+
+    this.itemStore.existingItems = savedItems;
+    this.itemStore.tableId = savedTableId || this.tableData?.Id;
+
     this.GetCategoryWithItems();
   }
 
   GetCategoryWithItems() {
-    this.generalAPI.GetCategoryWithItems({}).subscribe((r: any) => {
-      this.GroupData = r.data;
-      this.selectedCatGroup = this.extractGroups(r.data);
+    this.generalAPI.GetCategoryWithItems({}).subscribe((res: any) => {
+      this.GroupData = res.data || [];
+      this.selectedCatGroup = this.extractGroups(this.GroupData);
       this.isLoading = false;
     });
   }
 
   onSearch(event: any) {
-    const query = event.target.value?.toLowerCase() || '';
-    if (!query) {
-      this.selectedCatGroup = this.extractGroups(this.GroupData);
-    } else {
-      this.selectedCatGroup = this.extractGroups(this.GroupData).filter(
-        (group) => group.groupName.toLowerCase().includes(query)
-      );
-    }
+    const value = event.target.value?.toLowerCase() || '';
+
+    this.selectedCatGroup = value
+      ? this.extractGroups(this.GroupData).filter((x) =>
+          x.groupName.toLowerCase().includes(value)
+        )
+      : this.extractGroups(this.GroupData);
   }
 
-  openItemDetail(item: any) {
-    this.router.navigate(['/pages/additem'], { state: { data: item } });
-  }
-
-  async openItemDialog(item: any) {
-    // ✅ Assign tableId before opening modal
-    item.tableId = this.tableData.Id;
+  async openItemDialog(group: any) {
     const modal = await this.modalCtrl.create({
       component: OrderTakenComponent,
-      componentProps: { itemStore: item },
+      componentProps: {
+        itemStore: this.itemStore,
+        groupData: group,
+      },
       cssClass: 'custom-dialog',
     });
 
-    // ✅ Handle data returned from modal
-    modal.onDidDismiss().then((result) => {
-      if (result.data) {
-        this.itemStore = result.data;
+    modal.onDidDismiss().then((res: any) => {
+      if (res?.data?.existingItems) {
+        this.itemStore.existingItems = res.data.existingItems;
+        localStorage.setItem(
+          'orderItems',
+          JSON.stringify(res.data.existingItems)
+        );
+        localStorage.setItem('orderTableId', this.itemStore.tableId);
       }
-      this.openCancel();
     });
 
     await modal.present();
   }
 
-  openCancel() {
-    this.modalCtrl.dismiss();
-  }
-
-  openBack() {
-    this.router.navigateByUrl('/pages/dineintable');
-  }
-
-  extractGroups(reportData: any[]) {
-    return (reportData || [])?.flatMap((category: any) =>
-      (category.groupCategories || []).map((group: any) => ({
-        groupId: group.groupId,
-        groupName: group.groupName,
-        items: (group.categoryItems || []).map((item: any) => ({
-          batchCode: item.batchCode,
+  extractGroups(data: any[]) {
+    return (data || []).flatMap((cat: any) =>
+      (cat.groupCategories || []).map((grp: any) => ({
+        groupId: grp.groupId,
+        groupName: grp.groupName,
+        items: (grp.categoryItems || []).map((item: any) => ({
           itemId: item.itemId,
           itemName: item.itemName,
-          itemSize: item.itemSize,
-          itemType: item.itemType,
-          itemUnits: item.itemUnits || [],
-          itemWiseDiscount: item.itemWiseDiscount,
-          printerName: item.printerName,
-          qty: item.qty,
-          rate: item.rate,
-          relativeNo: item.relativeNo,
-          total: item.total,
-          unitPrice: item.unitPrice,
-          unitPrice1: item.unitPrice1,
-          unitPrice2: item.unitPrice2,
+          qty: 1,
+          unitPrice1: item.unitPrice1 ?? item.unitPrice ?? item.rate ?? 0,
+          itemNotes: [],
         })),
       }))
     );
+  }
+
+  openBack() {
+    this.modalCtrl.dismiss();
+  }
+
+  openCancel() {
+    const savedItems = JSON.parse(localStorage.getItem('orderItems') || '[]');
+    this.modalCtrl.dismiss({ existingItems: savedItems });
   }
 }
