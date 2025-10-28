@@ -54,6 +54,12 @@ export class DineInTableComponent implements OnInit {
         tableData: table,
       },
     });
+
+    // ✅ Handle data returned from modal
+    modal.onDidDismiss().then((result) => {
+      this.closeForm();
+      this.getAllTable();
+    });
     modal.present();
   }
 

@@ -73,6 +73,11 @@ export class AddItemComponent implements OnInit {
         tableData: this.orderList,
       },
     });
+    // ✅ Listen for close event
+    modal.onDidDismiss().then(() => {
+      this.closeForm(); // call closeForm when child modal dismisses
+    });
+
     modal.present();
   }
   isMenuOpen = false;

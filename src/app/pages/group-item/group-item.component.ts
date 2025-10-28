@@ -71,6 +71,7 @@ export class GroupItemComponent implements OnInit {
       if (result.data) {
         this.itemStore = result.data;
       }
+      this.openCancel();
     });
 
     await modal.present();
