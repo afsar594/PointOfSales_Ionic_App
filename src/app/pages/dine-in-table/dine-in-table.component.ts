@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TableService } from 'src/app/services/table.service';
 import { GroupItemComponent } from '../group-item/group-item.component';
+import { PopoverController } from '@ionic/angular';
+ import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-dine-in-table',
@@ -34,10 +36,18 @@ export class DineInTableComponent implements OnInit {
     'T-18',
   ];
   Alltables: any;
-
+  async presentPopover(ev: any, table: any) {
+    const popover = await this.popoverCtrl.create({
+      component: PopupComponent,
+      event: ev,
+      translucent: true,
+      componentProps: { table },
+    });
+    await popover.present();
+  }
   constructor(
     private modalController: ModalController,
-    private tableapi: TableService
+    private tableapi: TableService,private popoverCtrl: PopoverController
   ) {}
 
   closeForm() {

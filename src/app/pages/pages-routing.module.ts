@@ -6,6 +6,8 @@ import { AddItemComponent } from './add-item/add-item.component';
 import { AddRemarksComponent } from './add-remarks/add-remarks.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { GroupItemComponent } from './group-item/group-item.component';
+import { MergeTableComponent } from './merge-table/merge-table.component';
+import { PopupComponent } from './popup/popup.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
    {
     path: 'group-item',
     component:  GroupItemComponent
+  },
+    {
+    path: 'merge-table',
+    component:  MergeTableComponent
+  },
+    {
+    path: 'popup',
+    component:  PopupComponent
   },
 ];
 
