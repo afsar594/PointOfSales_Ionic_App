@@ -87,7 +87,7 @@ ion-toolbar {
   .gradient-btn {
     width: 70px;
     height: 90px;
-    --background: linear-gradient(135deg, #007bff, #00bcd4);
+    // --background: linear-gradient(135deg, #007bff, #00bcd4);
     --color: #fff;
     font-weight: 600;
     border-radius: 12px;
@@ -108,11 +108,126 @@ ion-toolbar {
 
   .ellipsis-icon {
     position: absolute;
-    top: 6px;
+    top: 16px;
     right: 6px;
     font-size: 20px;
     color: #fff;
     z-index: 10;
     cursor: pointer;
+  }
+}
+.custom-header {
+  ion-toolbar.header-toolbar {
+    --background: #d6e9ff; /* Light blue */
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* LEFT SECTION */
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .back-icon {
+      font-size: 22px;
+      color: #3880ff;
+      cursor: pointer;
+    }
+
+    .title-text {
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+    }
+  }
+
+  /* MIDDLE SECTION */
+  .middle-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .area-select {
+      min-width: 180px;
+      --border-radius: 8px;
+      --padding-start: 8px;
+      --background: #fff;
+      --color: #333;
+    }
+
+    ion-checkbox {
+      --size: 18px;
+      font-size: 14px;
+      color: #333;
+    }
+  }
+
+  /* RIGHT SECTION */
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+
+      .legend-box {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 1px solid #777;
+        border-radius: 3px;
+      }
+
+      .available {
+        background-color: #c8facc;
+      }
+
+      .occupied {
+        background-color: #ff4d4d;
+      }
+
+      .reserved {
+        background-color: #ffcc00;
+      }
+
+      .printed {
+        background-color: #6ac96a;
+      }
+    }
+
+    .fullscreen-icon {
+      font-size: 22px;
+      color: #3880ff;
+      cursor: pointer;
+    }
+  }
+
+  /* ✅ RESPONSIVE */
+  @media (max-width: 768px) {
+    ion-toolbar.header-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .middle-section,
+    .right-section {
+      flex-wrap: wrap;
+    }
+
+    .legend {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
   }
 }

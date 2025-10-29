@@ -1,0 +1,144 @@
+.custom-header {
+  ion-toolbar {
+    --background: #e0efff;
+    border-radius: 8px;
+    padding: 8px 16px;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .back-icon {
+        font-size: 22px;
+        color: #3880ff;
+        cursor: pointer;
+      }
+
+      ion-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+      }
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .hall-name {
+        font-weight: 600;
+        color: #444;
+      }
+
+      .area-select {
+        min-width: 160px;
+        --border-radius: 6px;
+        --background: #fff;
+        --color: #333;
+        --padding-start: 8px;
+      }
+    }
+  }
+}
+
+/* GRID */
+.table-grid {
+  padding: 16px;
+
+  ion-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  .table-card {
+    width: 100%;
+    background-color: #b9fcb9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 10px 14px;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        color: #222;
+      }
+
+      ion-checkbox {
+        --size: 20px;
+        margin-left: 6px;
+      }
+    }
+
+    p {
+      margin: 4px 0;
+      font-size: 14px;
+      color: #333;
+    }
+  }
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .custom-header ion-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .header-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .header-right {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+
+      .area-select {
+        width: 100%;
+      }
+    }
+  }
+
+  .table-card h2 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-grid {
+    padding: 10px;
+  }
+
+  .table-card {
+    padding: 8px;
+  }
+
+  .table-card h2 {
+    font-size: 14px;
+  }
+}

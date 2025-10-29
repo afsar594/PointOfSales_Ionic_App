@@ -1,0 +1,34 @@
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <div class="header-content">
+      <div class="header-left">
+        <ion-icon name="arrow-back-outline" routerLink="/dineintable" class="back-icon"></ion-icon>
+        <ion-title>Add Table</ion-title>
+      </div>
+
+      <div class="header-right">
+        <ion-select placeholder="--Select Area--" class="area-select" interface="popover">
+          <ion-select-option value="area1">Area 1</ion-select-option>
+          <ion-select-option value="area2">Area 2</ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="table-grid">
+    <ion-row>
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let table of tables">
+        <ion-card class="table-card">
+          <div class="table-header">
+            <h2>{{ table.name }}</h2>
+            <ion-checkbox></ion-checkbox>
+          </div>
+          <p><strong>ID:</strong> {{ table.id }}</p>
+          <p><strong>Capacity:</strong> {{ table.capacity }}</p>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
