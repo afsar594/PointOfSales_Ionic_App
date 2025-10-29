@@ -3,7 +3,7 @@
     <ion-title class="ion-text-center head">Spice Restaurants</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
@@ -29,6 +29,37 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+</ion-header> -->
+
+<ion-header class="custom-header">
+  <ion-toolbar class="header-toolbar">
+   <ion-col size="4"> 
+     <div class="middle-section">
+      <ion-select
+        interface="popover"
+        placeholder="--Select Area--"
+        class="area-select"
+      >
+        <ion-select-option value="area1">Area 1</ion-select-option>
+        <ion-select-option value="area2">Area 2</ion-select-option>
+        <ion-select-option value="area3">Area 3</ion-select-option>
+      </ion-select>
+
+      <ion-checkbox labelPlacement="end">Time</ion-checkbox>
+      <ion-checkbox labelPlacement="end">Amount</ion-checkbox>
+    </div>
+</ion-col>
+     <div class="right-section">
+      <div class="legend">
+        <span class="legend-box available"></span> Available
+        <span class="legend-box occupied"></span> Occupied
+        <span class="legend-box reserved"></span> Reserved
+        <span class="legend-box printed"></span> Printed
+      </div>
+
+     </div>
+
+  </ion-toolbar> 
 </ion-header>
 
 <ion-content class="ion-padding">
@@ -62,8 +93,7 @@
         {{ table.orderNo }}
       </ion-button>
 
-      <!-- Ellipsis icon (top right) -->
-      <ion-icon
+       <ion-icon
         name="ellipsis-vertical"
         class="ellipsis-icon"
         (click)="presentPopover($event, table)"
