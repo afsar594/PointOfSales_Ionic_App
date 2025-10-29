@@ -11,32 +11,39 @@ import { AddTableComponent } from '../add-table/add-table.component';
   selector: 'app-popup',
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.scss'],
-    standalone: true,
+  standalone: true,
   imports: [CommonModule, FormsModule, IonicModule],
 })
-export class PopupComponent  implements OnInit {
-@Input() table: any;
+export class PopupComponent implements OnInit {
+  @Input() table: any;
 
-  constructor(private popoverCtrl: PopoverController,private modalController: ModalController,
-) {}
+  constructor(
+    private popoverCtrl: PopoverController,
+    private modalController: ModalController
+  ) {}
   async mergeTable() {
     const modal = await this.modalController.create({
-      component:  MergeTableComponent,
+      component: MergeTableComponent,
       cssClass: 'custom-width-modal',
       componentProps: {
-       },
+        config: {
+          data: {
+            id: null,
+            mergeOrderId: null, // comma separated or empty
+          },
+        },
+      },
     });
- 
+
     await modal.present();
   }
-   async joinTable() {
+  async joinTable() {
     const modal = await this.modalController.create({
-      component:  AddTableComponent,
+      component: AddTableComponent,
       cssClass: 'custom-width-modal',
-      componentProps: {
-       },
+      componentProps: {},
     });
- 
+
     await modal.present();
   }
   viewDetails() {
@@ -44,8 +51,5 @@ export class PopupComponent  implements OnInit {
     this.popoverCtrl.dismiss();
   }
 
-  
- 
   ngOnInit() {}
-
 }

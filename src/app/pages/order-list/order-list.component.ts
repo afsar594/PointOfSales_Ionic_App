@@ -48,20 +48,35 @@ export class OrderListComponent implements OnInit {
   }
 
   calculateGrossAmount() {
-    this.GrossAmount = this.orderList.reduce(
-      (sum, item) => sum + (Number(item.total) || 0),
-      0
-    );
+    this.GrossAmount = this.orderList.reduce((sum, item) => {
+      const qty = Number(item.qty) || 0;
+      const rate = Number(item.unitPrice1 ?? item.rate) || 0;
+      const total = qty * rate;
+      item.total = Number(total.toFixed(2)); // ✅ keep item total updated
+      return sum + total;
+    }, 0);
+
     this.GrossAmount = Number(this.GrossAmount.toFixed(2));
+    this.calculateNetAmount();
   }
 
   calculateNetAmount() {
-    const gross = this.GrossAmount || 0;
-    const vat = this.VatAmount || 0;
-    const discount = this.Discount || 0;
+    const gross = Number(this.GrossAmount || 0); // total including VAT
+    const discount = Number(this.Discount || 0);
 
-    this.NetAmount = Number((gross - discount).toFixed(2));
-    this.TotalAmount = Number((this.NetAmount + vat).toFixed(2));
+    // Apply discount before VAT calculation
+    const grossAfterDiscount = gross - discount;
+
+    // VAT % Default → 5%
+    const vatRate = 0.05;
+
+    // ✅ Back calculation
+    const baseAmount = Number((grossAfterDiscount / (1 + vatRate)).toFixed(2));
+    this.VatAmount = Number((baseAmount * vatRate).toFixed(2));
+
+    // ✅ Net = base + VAT (or simply grossAfterDiscount)
+    this.NetAmount = baseAmount;
+    this.TotalAmount = Number((this.NetAmount + this.VatAmount).toFixed(2));
   }
 
   closeForm() {

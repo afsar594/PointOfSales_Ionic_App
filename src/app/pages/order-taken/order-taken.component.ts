@@ -126,7 +126,9 @@ export class OrderTakenComponent implements OnInit {
   }
 
   openCancel() {
-    this.saveToLocalStorage();
+    // this.saveToLocalStorage();
+    localStorage.removeItem('orderItems');
+    localStorage.removeItem('orderTableId');
     this.modalCtrl.dismiss();
   }
 }
