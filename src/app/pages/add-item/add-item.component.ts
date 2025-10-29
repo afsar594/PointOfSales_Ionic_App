@@ -78,6 +78,7 @@ export class AddItemComponent implements OnInit {
 
   // When finalizing order-list we may present OrderListComponent; on final save bubble 'reload'
   async order() {
+    console.log('this.orderList,', this.orderList);
     // attach tableId for OrderListComponent to use
     const modal = await this.modalController.create({
       component: OrderListComponent,

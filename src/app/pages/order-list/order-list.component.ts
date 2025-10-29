@@ -32,14 +32,16 @@ export class OrderListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('bb', this.tableData);
-    if (Array.isArray(this.tableData)) {
-      this.orderList = this.tableData;
-    } else if (this.tableData) {
-      this.orderList = [this.tableData];
-    } else {
-      this.orderList = [];
-    }
+    console.log('Incoming Table Data →', this.tableData);
+
+    // ✅ Always enforce array
+    this.orderList = Array.isArray(this.tableData?.selectedItems)
+      ? this.tableData.selectedItems
+      : this.tableData?.selectedItems
+      ? [this.tableData.selectedItems]
+      : [];
+
+    console.log('OrderList →', this.orderList);
 
     this.calculateGrossAmount();
     this.calculateNetAmount();
@@ -63,28 +65,18 @@ export class OrderListComponent implements OnInit {
   }
 
   closeForm() {
-    // close without refreshing parent
     this.modalCtrl.dismiss();
   }
 
-  openBack() {
-    // just navigate back if needed
-    // this.router.navigate(['ordertaken']);
-  }
-
-  // Save order and bubble 'reload' up
   save() {
-    if (!this.orderList || this.orderList.length === 0) {
+    if (!this.orderList.length) {
       this.messageService.show('No items to save.', 'danger');
       return;
     }
 
     this.order = {
       kotNo: '',
-      tableId:
-        this.tableData?.tableId ??
-        (Array.isArray(this.tableData) && this.tableData[0]?.tableId) ??
-        null,
+      tableId: this.tableData?.tableId ?? null,
       orderTypeId: 1,
       orderType: 'Dine-In',
       orderNo: null,
@@ -108,49 +100,26 @@ export class OrderListComponent implements OnInit {
       orderBillDate: new Date().toISOString(),
       isOrderCancel: false,
       isInvoicePrinted: false,
-      orderIdByOrderDate: null,
-      settlementId: null,
-      settlementDateTime: null,
-      settlementBillDate: null,
       paymentOptionId: null,
-      creditCard: '',
-      staffAccount: null,
       cashPaid: 0,
       remarks: '',
-      cityLedgerId: null,
-      isPosted: false,
-      balance: 0,
-      guestNo: '',
-      addedTable: '',
-      charged: 0,
       covers: this.pax,
       orderComent: null,
       orderTime: new Date().toISOString(),
-      changeBal: 0,
-      totalTax: 0,
-      alterUser: '',
-      alterDateTime: new Date().toISOString(),
-      shiftId: null,
-      orderTypeOption: '',
-      cancelUserId: null,
-      orderDlvryStatus: false,
       status: 0,
-      cgst: 0,
-      igst: 0,
-      svc: 0,
-      munFees: 0,
-      statusDelivery: 0,
     };
 
-    console.log('🧾 Final Payload:', this.order);
+    console.log('✅ Final Payload:', this.order);
+
     this.Isloading = true;
     this.orderService.createOrder(this.order).subscribe({
-      next: (response: { isSuccess: boolean }) => {
+      next: (res: any) => {
         this.Isloading = false;
-        if (response.isSuccess) {
+        if (res?.isSuccess) {
+          localStorage.removeItem('selectedItems');
+          localStorage.removeItem('orderItems');
+          localStorage.removeItem('orderTableId');
           this.messageService.show('Order saved successfully', 'success');
-
-          // dismiss with 'reload' so parent modals close and DineInTable refreshes
           this.modalCtrl.dismiss('reload');
         } else {
           this.messageService.show('Failed to save order.', 'danger');
@@ -161,5 +130,15 @@ export class OrderListComponent implements OnInit {
         this.messageService.show('Server error while saving order.', 'danger');
       },
     });
+  }
+  //   closeForm() {
+  //   // close without refreshing parent
+  //   this.modalCtrl.dismiss();
+  // }
+
+  openBack() {
+    // just navigate back if needed
+    // this.router.navigate(['ordertaken']);
+    this.modalCtrl.dismiss();
   }
 }
