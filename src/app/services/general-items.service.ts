@@ -29,4 +29,7 @@ export class GeneralItemsService {
   getAllOrders(payload: any): Observable<any> {
     return this.httpClient.post<any>(`Orders/GetAll`, payload);
   }
+  updateOrder(id: number, order: any): Observable<any> {
+    return this.httpClient.post<any>(`Orders/${id}`, order);
+  }
 }

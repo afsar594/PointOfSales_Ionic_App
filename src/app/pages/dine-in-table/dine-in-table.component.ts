@@ -5,7 +5,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { TableService } from 'src/app/services/table.service';
 import { GroupItemComponent } from '../group-item/group-item.component';
 import { PopoverController } from '@ionic/angular';
- import { PopupComponent } from '../popup/popup.component';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-dine-in-table',
@@ -47,7 +47,8 @@ export class DineInTableComponent implements OnInit {
   }
   constructor(
     private modalController: ModalController,
-    private tableapi: TableService,private popoverCtrl: PopoverController
+    private tableapi: TableService,
+    private popoverCtrl: PopoverController
   ) {}
 
   closeForm() {
@@ -95,7 +96,7 @@ export class DineInTableComponent implements OnInit {
       this.Alltables = res.data.flatMap((area: any) =>
         area.areaTables.map((table: any) => ({
           name: table.tableName,
-          Id: table.tableId,
+          id: table.tableId,
           backColor: table.tableBackColor,
           foreColor: table.tableForeColor,
           orderNo: table.tableOrders?.[0]?.orderNo || '',

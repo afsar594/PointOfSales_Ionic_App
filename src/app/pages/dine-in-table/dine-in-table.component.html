@@ -33,33 +33,31 @@
 
 <ion-header class="custom-header">
   <ion-toolbar class="header-toolbar">
-   <ion-col size="4"> 
-     <div class="middle-section">
-      <ion-select
-        interface="popover"
-        placeholder="--Select Area--"
-        class="area-select"
-      >
-        <ion-select-option value="area1">Area 1</ion-select-option>
-        <ion-select-option value="area2">Area 2</ion-select-option>
-        <ion-select-option value="area3">Area 3</ion-select-option>
-      </ion-select>
+    <ion-col size="4">
+      <div class="middle-section">
+        <ion-select
+          interface="popover"
+          placeholder="--Select Area--"
+          class="area-select"
+        >
+          <ion-select-option value="area1">Area 1</ion-select-option>
+          <ion-select-option value="area2">Area 2</ion-select-option>
+          <ion-select-option value="area3">Area 3</ion-select-option>
+        </ion-select>
 
-      <ion-checkbox labelPlacement="end">Time</ion-checkbox>
-      <ion-checkbox labelPlacement="end">Amount</ion-checkbox>
-    </div>
-</ion-col>
-     <div class="right-section">
+        <ion-checkbox labelPlacement="end">Time</ion-checkbox>
+        <ion-checkbox labelPlacement="end">Amount</ion-checkbox>
+      </div>
+    </ion-col>
+    <div class="right-section">
       <div class="legend">
         <span class="legend-box available"></span> Available
         <span class="legend-box occupied"></span> Occupied
         <span class="legend-box reserved"></span> Reserved
         <span class="legend-box printed"></span> Printed
       </div>
-
-     </div>
-
-  </ion-toolbar> 
+    </div>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
@@ -69,38 +67,39 @@
         <h2 class="dinein">Dine-in Table</h2>
       </ion-col>
     </ion-row>
-<ion-row class="table-grid">
-  <ion-col
-    *ngFor="let table of Alltables"
-    size="6"
-    size-sm="4"
-    size-md="4"
-    size-lg="2"
-    size-xl="1"
-    class="ion-text-center"
-  >
-    <div class="table-button-wrapper">
-      <ion-button
-        expand="block"
-        class="gradient-btn"
-        (click)="openModal(table)"
-        [ngStyle]="{
-          'background-color': table.backColor,
-          color: table.foreColor
-        }"
+    <ion-row class="table-grid">
+      <ion-col
+        *ngFor="let table of Alltables"
+        size="6"
+        size-sm="4"
+        size-md="4"
+        size-lg="2"
+        size-xl="1"
+        class="ion-text-center"
       >
-        {{ table.name }}
-        {{ table.orderNo }}
-      </ion-button>
+        <div class="table-button-wrapper">
+          <ion-button
+            expand="block"
+            class="table-btn"
+            (click)="openModal(table)"
+            [style.--background]="
+              table.orderNo ? table.backColor : table.backColor
+            "
+            [style.--color]="table.foreColor"
+          >
+            {{ table.name }}
+            <br />
+            {{ table.orderNo || "" }}
+          </ion-button>
 
-       <ion-icon
-        name="ellipsis-vertical"
-        class="ellipsis-icon"
-        (click)="presentPopover($event, table)"
-      ></ion-icon>
-    </div>
-  </ion-col>
-</ion-row>
+          <ion-icon
+            name="ellipsis-vertical"
+            class="ellipsis-icon"
+            (click)="presentPopover($event, table)"
+          ></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
 
     <!-- <ion-row class="table-grid">
       <ion-col
