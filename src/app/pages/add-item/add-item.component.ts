@@ -21,7 +21,7 @@ export class AddItemComponent implements OnInit {
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {
-    console.log('selected', this.itemStore);
+    console.log('selected add item', this.itemStore);
     const items = this.itemStore?.existingItems || [];
     this.orderList = items.map((item: any) => ({
       ...item,
@@ -87,6 +87,8 @@ export class AddItemComponent implements OnInit {
         tableData: {
           selectedItems: this.orderList,
           tableId: this.itemStore?.tableId,
+          NewtakeOder: this.itemStore?.NewtakeOder,
+          table: this.itemStore.table,
         },
       },
     });

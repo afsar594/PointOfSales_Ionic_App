@@ -32,17 +32,11 @@ export class OrderListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('Incoming Table Data →', this.tableData);
-
-    // ✅ Always enforce array
     this.orderList = Array.isArray(this.tableData?.selectedItems)
       ? this.tableData.selectedItems
       : this.tableData?.selectedItems
       ? [this.tableData.selectedItems]
       : [];
-
-    console.log('OrderList →', this.orderList);
-
     this.calculateGrossAmount();
     this.calculateNetAmount();
   }
@@ -52,7 +46,7 @@ export class OrderListComponent implements OnInit {
       const qty = Number(item.qty) || 0;
       const rate = Number(item.unitPrice1 ?? item.rate) || 0;
       const total = qty * rate;
-      item.total = Number(total.toFixed(2)); // ✅ keep item total updated
+      item.total = Number(total.toFixed(2));
       return sum + total;
     }, 0);
 
@@ -61,20 +55,14 @@ export class OrderListComponent implements OnInit {
   }
 
   calculateNetAmount() {
-    const gross = Number(this.GrossAmount || 0); // total including VAT
+    const gross = Number(this.GrossAmount || 0);
     const discount = Number(this.Discount || 0);
 
-    // Apply discount before VAT calculation
     const grossAfterDiscount = gross - discount;
-
-    // VAT % Default → 5%
     const vatRate = 0.05;
-
-    // ✅ Back calculation
     const baseAmount = Number((grossAfterDiscount / (1 + vatRate)).toFixed(2));
     this.VatAmount = Number((baseAmount * vatRate).toFixed(2));
 
-    // ✅ Net = base + VAT (or simply grossAfterDiscount)
     this.NetAmount = baseAmount;
     this.TotalAmount = Number((this.NetAmount + this.VatAmount).toFixed(2));
   }
@@ -89,42 +77,77 @@ export class OrderListComponent implements OnInit {
       return;
     }
 
+    const table = this.tableData?.NewtakeOder?.TakeNewtable || {};
+
+    const totalAmount = this.orderList.reduce(
+      (sum, item) => sum + (item.total || 0),
+      0
+    );
+    const vatRate = 0.05;
+    const vatAmt = +(totalAmount * vatRate).toFixed(2);
+    const netAmount = +(totalAmount + vatAmt).toFixed(2);
+
     this.order = {
+      id: 0,
       kotNo: '',
-      tableId: this.tableData?.tableId ?? null,
+      orderNo: table.orderNo ?? null,
+      tableId: table.id ? table.id : this.tableData?.table.id,
+      tableName: table.name ?? '',
+      area: this.tableData?.area ?? 'Main Hall',
       orderTypeId: 1,
       orderType: 'Dine-In',
-      orderNo: null,
-      area: this.tableData?.area ?? '',
-      tableName: this.tableData?.tableName ?? '',
-      orderDetails: this.orderList.map((item: any) => ({
-        itemMasterId: item.itemMasterId ?? item.itemId,
-        itemName: item.itemName,
-        qty: item.qty,
-        rate: item.unitPrice1 ?? item.rate ?? 0,
-        total: item.total,
-        itemNotes: item.itemNotes || [],
-      })),
-      netAmount: this.NetAmount,
-      vatAmt: this.VatAmount,
-      totalAmount: this.TotalAmount,
       orderDateTime: new Date().toISOString(),
+      orderBillDate: new Date().toISOString(),
       waiterId: null,
       driverId: null,
       roomId: null,
-      orderBillDate: new Date().toISOString(),
       isOrderCancel: false,
       isInvoicePrinted: false,
       paymentOptionId: null,
       cashPaid: 0,
       remarks: '',
-      covers: this.pax,
+      covers: this.pax ?? 0,
       orderComent: null,
       orderTime: new Date().toISOString(),
       status: 0,
-    };
 
-    console.log('✅ Final Payload:', this.order);
+      totalAmount: totalAmount,
+      vatAmt: vatAmt,
+      netAmount: netAmount,
+
+      orderDetails: this.orderList.map((item: any) => ({
+        itemMasterId: item.itemMasterId ?? item.itemId,
+        itemName: item.itemName,
+        qty: item.qty,
+        rate: item.unitPrice1 ?? item.rate ?? 0,
+        total: item.total ?? 0,
+        itemNotes: item.itemNotes || [],
+      })),
+
+      settlementDetails: [
+        {
+          id: 0,
+          trans_code: 'STOT',
+          trans_Description: 'SUB TOTAL',
+          taxable: false,
+          amount: totalAmount,
+        },
+        {
+          id: 0,
+          trans_code: 'VAT',
+          trans_Description: 'VAT',
+          taxable: false,
+          amount: vatAmt,
+        },
+        {
+          id: 0,
+          trans_code: 'NET',
+          trans_Description: 'NET AMOUNT',
+          taxable: false,
+          amount: netAmount,
+        },
+      ],
+    };
 
     this.Isloading = true;
     this.orderService.createOrder(this.order).subscribe({
@@ -146,14 +169,8 @@ export class OrderListComponent implements OnInit {
       },
     });
   }
-  //   closeForm() {
-  //   // close without refreshing parent
-  //   this.modalCtrl.dismiss();
-  // }
 
   openBack() {
-    // just navigate back if needed
-    // this.router.navigate(['ordertaken']);
     this.modalCtrl.dismiss();
   }
 }

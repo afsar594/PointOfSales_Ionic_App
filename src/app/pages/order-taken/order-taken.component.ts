@@ -15,6 +15,8 @@ import { AddItemComponent } from '../add-item/add-item.component';
 export class OrderTakenComponent implements OnInit {
   @Input() itemStore: any;
   @Input() groupData: any;
+  @Input() NewtakeOder: any;
+  @Input() table: any;
 
   selectedCatItem: any[] = [];
   filteredItems: any[] = [];
@@ -103,7 +105,12 @@ export class OrderTakenComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
       componentProps: {
-        itemStore: { existingItems: merged, tableId: this.itemStore.tableId },
+        itemStore: {
+          existingItems: merged,
+          tableId: this.itemStore.tableId,
+          NewtakeOder: this.NewtakeOder,
+          table: this.table,
+        },
       },
     });
 

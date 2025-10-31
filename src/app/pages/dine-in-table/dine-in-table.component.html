@@ -67,6 +67,7 @@
         <h2 class="dinein">Dine-in Table</h2>
       </ion-col>
     </ion-row>
+
     <ion-row class="table-grid">
       <ion-col
         *ngFor="let table of Alltables"
@@ -81,18 +82,22 @@
           <ion-button
             expand="block"
             class="table-btn"
-            (click)="openModal(table)"
-            [style.--background]="
-              table.orderNo ? table.backColor : table.backColor
-            "
+            [style.--background]="table.backColor"
             [style.--color]="table.foreColor"
+            (click)="
+              table.orders.length > 1
+                ? openOrdersModal(table)
+                : openModal(table)
+            "
           >
             {{ table.name }}
             <br />
             {{ table.orderNo || "" }}
           </ion-button>
 
+          <!-- Only show ellipsis if exactly one order -->
           <ion-icon
+            *ngIf="table.orders.length === 1"
             name="ellipsis-vertical"
             class="ellipsis-icon"
             (click)="presentPopover($event, table)"
@@ -100,30 +105,5 @@
         </div>
       </ion-col>
     </ion-row>
-
-    <!-- <ion-row class="table-grid">
-      <ion-col
-        *ngFor="let table of Alltables"
-        size="6"
-        size-sm="4"
-        size-md="4"
-        size-lg="2"
-        size-xl="1"
-        class="ion-text-center"
-      >
-        <ion-button
-          expand="block"
-          class="gradient-btn"
-          (click)="openModal(table)"
-          [ngStyle]="{
-            'background-color': table.backColor,
-            color: table.foreColor
-          }"
-        >
-          {{ table.name }}
-          {{ table.orderNo }}
-        </ion-button>
-      </ion-col>
-    </ion-row> -->
   </ion-grid>
 </ion-content>
