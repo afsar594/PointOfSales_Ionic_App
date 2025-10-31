@@ -32,125 +32,132 @@ export class OrderListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('bb', this.tableData);
-    if (Array.isArray(this.tableData)) {
-      this.orderList = this.tableData;
-    } else if (this.tableData) {
-      this.orderList = [this.tableData];
-    } else {
-      this.orderList = [];
-    }
-
+    this.orderList = Array.isArray(this.tableData?.selectedItems)
+      ? this.tableData.selectedItems
+      : this.tableData?.selectedItems
+      ? [this.tableData.selectedItems]
+      : [];
     this.calculateGrossAmount();
     this.calculateNetAmount();
   }
 
   calculateGrossAmount() {
-    this.GrossAmount = this.orderList.reduce(
-      (sum, item) => sum + (Number(item.total) || 0),
-      0
-    );
+    this.GrossAmount = this.orderList.reduce((sum, item) => {
+      const qty = Number(item.qty) || 0;
+      const rate = Number(item.unitPrice1 ?? item.rate) || 0;
+      const total = qty * rate;
+      item.total = Number(total.toFixed(2));
+      return sum + total;
+    }, 0);
+
     this.GrossAmount = Number(this.GrossAmount.toFixed(2));
+    this.calculateNetAmount();
   }
 
   calculateNetAmount() {
-    const gross = this.GrossAmount || 0;
-    const vat = this.VatAmount || 0;
-    const discount = this.Discount || 0;
+    const gross = Number(this.GrossAmount || 0);
+    const discount = Number(this.Discount || 0);
 
-    this.NetAmount = Number((gross - discount).toFixed(2));
-    this.TotalAmount = Number((this.NetAmount + vat).toFixed(2));
+    const grossAfterDiscount = gross - discount;
+    const vatRate = 0.05;
+    const baseAmount = Number((grossAfterDiscount / (1 + vatRate)).toFixed(2));
+    this.VatAmount = Number((baseAmount * vatRate).toFixed(2));
+
+    this.NetAmount = baseAmount;
+    this.TotalAmount = Number((this.NetAmount + this.VatAmount).toFixed(2));
   }
 
   closeForm() {
-    // close without refreshing parent
     this.modalCtrl.dismiss();
   }
 
-  openBack() {
-    // just navigate back if needed
-    // this.router.navigate(['ordertaken']);
-  }
-
-  // Save order and bubble 'reload' up
   save() {
-    if (!this.orderList || this.orderList.length === 0) {
+    if (!this.orderList.length) {
       this.messageService.show('No items to save.', 'danger');
       return;
     }
 
+    const table = this.tableData?.NewtakeOder?.TakeNewtable || {};
+
+    const totalAmount = this.orderList.reduce(
+      (sum, item) => sum + (item.total || 0),
+      0
+    );
+    const vatRate = 0.05;
+    const vatAmt = +(totalAmount * vatRate).toFixed(2);
+    const netAmount = +(totalAmount + vatAmt).toFixed(2);
+
     this.order = {
+      id: 0,
       kotNo: '',
-      tableId:
-        this.tableData?.tableId ??
-        (Array.isArray(this.tableData) && this.tableData[0]?.tableId) ??
-        null,
+      orderNo: table.orderNo ?? null,
+      tableId: table.id ? table.id : this.tableData?.table.id,
+      tableName: table.name ?? '',
+      area: this.tableData?.area ?? 'Main Hall',
       orderTypeId: 1,
       orderType: 'Dine-In',
-      orderNo: null,
-      area: this.tableData?.area ?? '',
-      tableName: this.tableData?.tableName ?? '',
+      orderDateTime: new Date().toISOString(),
+      orderBillDate: new Date().toISOString(),
+      waiterId: null,
+      driverId: null,
+      roomId: null,
+      isOrderCancel: false,
+      isInvoicePrinted: false,
+      paymentOptionId: null,
+      cashPaid: 0,
+      remarks: '',
+      covers: this.pax ?? 0,
+      orderComent: null,
+      orderTime: new Date().toISOString(),
+      status: 0,
+
+      totalAmount: totalAmount,
+      vatAmt: vatAmt,
+      netAmount: netAmount,
+
       orderDetails: this.orderList.map((item: any) => ({
         itemMasterId: item.itemMasterId ?? item.itemId,
         itemName: item.itemName,
         qty: item.qty,
         rate: item.unitPrice1 ?? item.rate ?? 0,
-        total: item.total,
+        total: item.total ?? 0,
         itemNotes: item.itemNotes || [],
       })),
-      netAmount: this.NetAmount,
-      vatAmt: this.VatAmount,
-      totalAmount: this.TotalAmount,
-      orderDateTime: new Date().toISOString(),
-      waiterId: null,
-      driverId: null,
-      roomId: null,
-      orderBillDate: new Date().toISOString(),
-      isOrderCancel: false,
-      isInvoicePrinted: false,
-      orderIdByOrderDate: null,
-      settlementId: null,
-      settlementDateTime: null,
-      settlementBillDate: null,
-      paymentOptionId: null,
-      creditCard: '',
-      staffAccount: null,
-      cashPaid: 0,
-      remarks: '',
-      cityLedgerId: null,
-      isPosted: false,
-      balance: 0,
-      guestNo: '',
-      addedTable: '',
-      charged: 0,
-      covers: this.pax,
-      orderComent: null,
-      orderTime: new Date().toISOString(),
-      changeBal: 0,
-      totalTax: 0,
-      alterUser: '',
-      alterDateTime: new Date().toISOString(),
-      shiftId: null,
-      orderTypeOption: '',
-      cancelUserId: null,
-      orderDlvryStatus: false,
-      status: 0,
-      cgst: 0,
-      igst: 0,
-      svc: 0,
-      munFees: 0,
-      statusDelivery: 0,
+
+      settlementDetails: [
+        {
+          id: 0,
+          trans_code: 'STOT',
+          trans_Description: 'SUB TOTAL',
+          taxable: false,
+          amount: totalAmount,
+        },
+        {
+          id: 0,
+          trans_code: 'VAT',
+          trans_Description: 'VAT',
+          taxable: false,
+          amount: vatAmt,
+        },
+        {
+          id: 0,
+          trans_code: 'NET',
+          trans_Description: 'NET AMOUNT',
+          taxable: false,
+          amount: netAmount,
+        },
+      ],
     };
 
-    console.log('🧾 Final Payload:', this.order);
     this.Isloading = true;
     this.orderService.createOrder(this.order).subscribe({
-      next: (response: { isSuccess: boolean }) => {
+      next: (res: any) => {
         this.Isloading = false;
-        if (response.isSuccess) {
+        if (res?.isSuccess) {
+          localStorage.removeItem('selectedItems');
+          localStorage.removeItem('orderItems');
+          localStorage.removeItem('orderTableId');
           this.messageService.show('Order saved successfully', 'success');
-
-          // dismiss with 'reload' so parent modals close and DineInTable refreshes
           this.modalCtrl.dismiss('reload');
         } else {
           this.messageService.show('Failed to save order.', 'danger');
@@ -161,5 +168,9 @@ export class OrderListComponent implements OnInit {
         this.messageService.show('Server error while saving order.', 'danger');
       },
     });
+  }
+
+  openBack() {
+    this.modalCtrl.dismiss();
   }
 }

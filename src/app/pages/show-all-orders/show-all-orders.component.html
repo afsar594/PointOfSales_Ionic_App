@@ -1,0 +1,45 @@
+<ion-header translucent="true">
+  <ion-toolbar color="primary">
+    <ion-title>Orders for {{ tableName }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" (click)="close()"
+        >Close</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-margin-bottom">
+      <ion-col size="12" class="ion-text-center">
+        <h2 class="dinein">Dine-in Table</h2>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="table-grid">
+      <ion-col
+        *ngFor="let table of orders"
+        size="6"
+        size-sm="4"
+        size-md="4"
+        size-lg="2"
+        size-xl="1"
+        class="ion-text-center"
+      >
+        <div class="table-button-wrapper">
+          <ion-button
+            expand="block"
+            class="table-btn"
+            [style.--background]="table.tableBackColor"
+            [style.--color]="table.tableForeColor"
+          >
+            {{ table.name }}
+            <br />
+            {{ table.orderNo || "" }}
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

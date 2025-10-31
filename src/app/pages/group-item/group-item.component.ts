@@ -14,7 +14,7 @@ import { OrderTakenComponent } from '../order-taken/order-taken.component';
 })
 export class GroupItemComponent implements OnInit {
   @Input() tableData: any;
-
+  @Input() data: any;
   searchText: string = '';
   isLoading: boolean = true;
 
@@ -32,6 +32,8 @@ export class GroupItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('comming value in group', this.data);
+    console.log('tableData', this.tableData);
     this.isLoading = true;
 
     const savedItems = JSON.parse(localStorage.getItem('orderItems') || '[]');
@@ -67,6 +69,8 @@ export class GroupItemComponent implements OnInit {
       componentProps: {
         itemStore: this.itemStore,
         groupData: group,
+        NewtakeOder: this.data,
+        table: this.tableData,
       },
       cssClass: 'custom-dialog',
     });

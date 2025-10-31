@@ -5,7 +5,8 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { TableService } from 'src/app/services/table.service';
 import { GroupItemComponent } from '../group-item/group-item.component';
 import { PopoverController } from '@ionic/angular';
- import { PopupComponent } from '../popup/popup.component';
+import { PopupComponent } from '../popup/popup.component';
+import { ShowAllOrdersComponent } from '../show-all-orders/show-all-orders.component';
 
 @Component({
   selector: 'app-dine-in-table',
@@ -41,13 +42,20 @@ export class DineInTableComponent implements OnInit {
       component: PopupComponent,
       event: ev,
       translucent: true,
-      componentProps: { table },
+      componentProps: { table: table, even: ev },
+    });
+    popover.onDidDismiss().then((result) => {
+      // child may request reload (after finishing order) or nothing
+      if (result?.data === 'reload') {
+        this.getAllTable();
+      }
     });
     await popover.present();
   }
   constructor(
     private modalController: ModalController,
-    private tableapi: TableService,private popoverCtrl: PopoverController
+    private tableapi: TableService,
+    private popoverCtrl: PopoverController
   ) {}
 
   closeForm() {
@@ -95,12 +103,21 @@ export class DineInTableComponent implements OnInit {
       this.Alltables = res.data.flatMap((area: any) =>
         area.areaTables.map((table: any) => ({
           name: table.tableName,
-          Id: table.tableId,
+          id: table.tableId,
           backColor: table.tableBackColor,
           foreColor: table.tableForeColor,
+          orders: table.tableOrders || [], // 👈 keep all orders
           orderNo: table.tableOrders?.[0]?.orderNo || '',
         }))
       );
     });
+  }
+  async openOrdersModal(table: any) {
+    const modal = await this.modalController.create({
+      component: ShowAllOrdersComponent, // 👈 your modal component
+      cssClass: 'custom-width-modal',
+      componentProps: { orders: table.orders, tableName: table.name },
+    });
+    await modal.present();
   }
 }

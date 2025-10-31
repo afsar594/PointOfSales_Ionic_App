@@ -21,7 +21,7 @@ export class AddItemComponent implements OnInit {
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {
-    console.log('selected', this.itemStore);
+    console.log('selected add item', this.itemStore);
     const items = this.itemStore?.existingItems || [];
     this.orderList = items.map((item: any) => ({
       ...item,
@@ -78,6 +78,7 @@ export class AddItemComponent implements OnInit {
 
   // When finalizing order-list we may present OrderListComponent; on final save bubble 'reload'
   async order() {
+    console.log('this.orderList,', this.orderList);
     // attach tableId for OrderListComponent to use
     const modal = await this.modalController.create({
       component: OrderListComponent,
@@ -86,6 +87,8 @@ export class AddItemComponent implements OnInit {
         tableData: {
           selectedItems: this.orderList,
           tableId: this.itemStore?.tableId,
+          NewtakeOder: this.itemStore?.NewtakeOder,
+          table: this.itemStore.table,
         },
       },
     });
