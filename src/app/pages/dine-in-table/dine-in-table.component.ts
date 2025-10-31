@@ -16,6 +16,9 @@ import { ShowAllOrdersComponent } from '../show-all-orders/show-all-orders.compo
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class DineInTableComponent implements OnInit {
+  showTime = false;
+  showAmount = false;
+
   tables: string[] = [
     'T-01',
     'T-02',
@@ -119,5 +122,17 @@ export class DineInTableComponent implements OnInit {
       componentProps: { orders: table.orders, tableName: table.name },
     });
     await modal.present();
+  }
+  hasValidOrder(table: any): boolean {
+    const orders = table.orders || [];
+
+    // Condition: show ellipsis only if there is exactly one valid order
+    if (orders.length === 1) {
+      const order = orders[0];
+      return !!(order?.orderId && order?.orderNo);
+    }
+
+    // If multiple orders, do not show ellipsis
+    return false;
   }
 }
