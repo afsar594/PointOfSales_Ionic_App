@@ -106,7 +106,8 @@ export class GroupItemComponent implements OnInit {
   }
 
   openBack() {
-    this.modalCtrl.dismiss();
+    this.GetCategoryWithItems();
+    this.modalCtrl.dismiss('reload');
   }
 
   openCancel() {

@@ -48,7 +48,6 @@ export class DineInTableComponent implements OnInit {
       componentProps: { table: table, even: ev },
     });
     popover.onDidDismiss().then((result) => {
-      // child may request reload (after finishing order) or nothing
       if (result?.data === 'reload') {
         this.getAllTable();
       }
@@ -75,7 +74,6 @@ export class DineInTableComponent implements OnInit {
     });
 
     modal.onDidDismiss().then((result) => {
-      // child may request reload (after finishing order) or nothing
       if (result?.data === 'reload') {
         this.getAllTable();
       }
@@ -109,7 +107,7 @@ export class DineInTableComponent implements OnInit {
           id: table.tableId,
           backColor: table.tableBackColor,
           foreColor: table.tableForeColor,
-          orders: table.tableOrders || [], // 👈 keep all orders
+          orders: table.tableOrders || [],
           orderNo: table.tableOrders?.[0]?.orderNo || '',
         }))
       );
@@ -117,7 +115,7 @@ export class DineInTableComponent implements OnInit {
   }
   async openOrdersModal(table: any) {
     const modal = await this.modalController.create({
-      component: ShowAllOrdersComponent, // 👈 your modal component
+      component: ShowAllOrdersComponent,
       cssClass: 'custom-width-modal',
       componentProps: { orders: table.orders, tableName: table.name },
     });
@@ -125,14 +123,10 @@ export class DineInTableComponent implements OnInit {
   }
   hasValidOrder(table: any): boolean {
     const orders = table.orders || [];
-
-    // Condition: show ellipsis only if there is exactly one valid order
     if (orders.length === 1) {
       const order = orders[0];
       return !!(order?.orderId && order?.orderNo);
     }
-
-    // If multiple orders, do not show ellipsis
     return false;
   }
 }

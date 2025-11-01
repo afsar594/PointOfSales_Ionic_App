@@ -30,7 +30,6 @@ export class OrderTakenComponent implements OnInit {
     const storedItems = JSON.parse(localStorage.getItem('orderItems') || '[]');
     const items = this.groupData?.items || [];
 
-    // ✅ Sync LocalStorage selection
     this.selectedCatItem = items.map((it: { itemId: any; unitPrice1: any }) => {
       const exist = storedItems.find((x: any) => x.itemId === it.itemId);
       return {
@@ -133,7 +132,6 @@ export class OrderTakenComponent implements OnInit {
   }
 
   openCancel() {
-    // this.saveToLocalStorage();
     localStorage.removeItem('orderItems');
     localStorage.removeItem('orderTableId');
     this.modalCtrl.dismiss();
